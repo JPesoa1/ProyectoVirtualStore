@@ -3,35 +3,30 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProyectoVirtualStore.Models
 {
-    [Table("Juegos")]
+    [Table("juegos")]
     public class Juegos
     {
         [Key]
-        [Column("idJuego")]
+        [Column("id_juego")]
         public int IdJuego { get; set; }
 
 
-        [Column("nombreJuego")]
+        [Column("nombre_juego")]
         public string NombreJuego { get; set; }
 
 
-        [Column("descripcionJuego")]
+        [Column("descripcion_juego")]
         public string DescripcionJuego { get; set; }
 
-        [Column("precioJuego")]
+        [Column("precio_juego")]
         public Decimal PrecioJuego { get; set; }
 
-
-        [Column("fechaLanzamiento")]
-        public DateTime FechaLanzamiento { get; set; }
-
-
-        [Column("categoriaJuego")]
-        public string CategoriaJuego { get; set; }
+        [Column("estado")]
+        public string Estado{ get; set; }
 
 
-        [Column("modalidad")]
-        public string? Modalidad { get; set; }
+        [Column("imagen")]
+        public string Imagen { get; set; }
 
 
 

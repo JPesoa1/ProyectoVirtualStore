@@ -16,6 +16,7 @@ namespace ProyectoVirtualStore.Controllers
             this.repo = repo;
         }
 
+
         public IActionResult Index()
         {
             List<Juegos> juegos = this.repo.GetJuegos();

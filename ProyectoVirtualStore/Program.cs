@@ -12,21 +12,18 @@ builder.Services.AddSession(x => x.IdleTimeout = TimeSpan.FromMinutes(30));
 builder.Services.AddControllersWithViews();
 
 
-string connectionString =
-  "Data Source=LOCALHOST\\DESARROLLO;Initial Catalog=TIENDAVIRTUAL;User ID=SA;Password=MCSD2023";
+//string connectionString =
+//  "Data Source=LOCALHOST\\DESARROLLO;Initial Catalog=TIENDAVIRTUAL;User ID=SA;Password=MCSD2023";
 
+string connectionStringCasa= "Data Source=LOCALHOST\\SQLEXPRESS;Initial Catalog=TIENDAVIRTUAL;Integrated Security=True";
 
 
 builder.Services.AddTransient<IRepository, RepositorySQLTienda>();
-
-
 builder.Services.AddDbContext<TiendaContext>
-    (option => option.UseSqlServer(connectionString));
-//builder.Services.AddDbContext<TiendaContext>
-//    (option =>
+    (option => option.UseSqlServer(connectionStringCasa));
 
-//        option.UseOracle(connectionString)
-//    );
+
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
