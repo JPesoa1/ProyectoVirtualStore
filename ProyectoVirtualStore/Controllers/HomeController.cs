@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProyectoVirtualStore.Filters;
 using ProyectoVirtualStore.Models;
 using ProyectoVirtualStore.Repository;
 using System.Diagnostics;
@@ -17,9 +18,10 @@ namespace ProyectoVirtualStore.Controllers
         }
 
 
-        public IActionResult Index()
+        [AuthorizeUsers]
+        public async Task<IActionResult> Index()
         {
-            List<Juegos> juegos = this.repo.GetJuegos();
+            List<Juegos> juegos = await this.repo.GetJuegos();
             return View(juegos);
         }
 

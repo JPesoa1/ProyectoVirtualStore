@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+
 using Microsoft.AspNetCore.Mvc;
+using ProyectoVirtualStore.Filters;
 using ProyectoVirtualStore.Models;
 using ProyectoVirtualStore.Repository;
+
+using System.Security.Claims;
 
 namespace ProyectoVirtualStore.Controllers
 {
@@ -33,15 +38,33 @@ namespace ProyectoVirtualStore.Controllers
             }
             else
             {
+                ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.NameIdentifier);
 
-                HttpContext.Session.SetString("USUARIO", email);
-                return RedirectToAction("Index", "Home");
+                Claim claimId = new Claim(ClaimTypes.NameIdentifier,user.IdUsuario.ToString());
+                Claim claimUser = new Claim(ClaimTypes.Name, user.NombreUsuario);
+                Claim claimEmail = new Claim(ClaimTypes.Email, user.Email);
+
+
+
+                identity.AddClaim(claimId);
+                identity.AddClaim(claimUser);
+                identity.AddClaim(claimEmail);
+             
+
+
+
+
+                ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
+
+
+                string controller = TempData["controller"].ToString();
+                string action = TempData["action"].ToString();
+                string idjuego = TempData["idjuego"].ToString();
+
+                return RedirectToAction(action, controller , new {idjuego = idjuego});
+               
             }
-
-
-           
-
-
         }
 
         public IActionResult Register() { 
@@ -57,5 +80,22 @@ namespace ProyectoVirtualStore.Controllers
             ViewData["MENSAJE"] = "Usuario registrado correctamnet";
             return View();
         }
+
+
+
+        [AuthorizeUsers]
+        public IActionResult LogOut()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        public IActionResult User() 
+        {
+            string nombre =HttpContext.Session.GetString("USUARIO");
+            return View(nombre);
+        }
+
     }
 }

@@ -24,8 +24,7 @@ namespace ProyectoVirtualStore.Models
         [Column("salt")]
         public string Salt { get; set; }
 
-        [Column("imagen")]
-        public string? Imagen { get; set; }
+      
 
        
 

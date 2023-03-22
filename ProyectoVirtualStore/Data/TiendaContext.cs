@@ -10,6 +10,9 @@ namespace ProyectoVirtualStore.Data
 
         public DbSet<Juegos> Juegos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Comentarios> Comentarios{ get; set; }
+
+
 
 
 

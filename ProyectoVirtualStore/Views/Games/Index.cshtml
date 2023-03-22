@@ -1,5 +1,123 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model DatosJuego
+
+<div class="contenedor padre">
+    <div class="card">
+        <img src="./assets/images/coh3.jpg" alt="@Model.Juego.NombreJuego">
+    </div>
+    <div class="card informacion">
+        <p>Precio: $@Model.Juego.PrecioJuego</p>
+
+    </div>
+    <div style="margin-top: 2rem;" class="padre">
+        <p>
+            @Model.Juego.DescripcionJuego
+        </p>
+    </div>
+
+
+    @if (Model.Comentarios != null)
+    {
+        @foreach (Comentarios comentarios in Model.Comentarios)
+        {
+            <article style="border:1px solid black">
+                <div class="flex items-center mb-4 space-x-4">
+                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                    <div class="space-y-1 font-medium dark:text-white">
+                        <p> @comentarios.FechaPost</p>
+                    </div>
+                </div>
+
+                <p class="mb-2 font-light text-gray-500 dark:text-gray-400"> @comentarios.Comentario</p>
+
+            </article>
+        }
+
+    }
+    else if (Model.Comentarios.Count == 0)
+    {
+
+        <h1>Sin comentarios de momento se el primero</h1>
+    }
+
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        <form method="post" style=" max-width: 1068px;width: 800px;">
+            <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                    <label for="comment" class="sr-only">Your comment</label>
+                    <textarea name="texto" id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                </div>
+                <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                    <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                        Post comment
+                    </button>
+
+                </div>
+            </div>
+        </form>
+    }
+
+
+
+</div>
+<hr />
+<style>
+
+
+    .padre {
+        max-width: 1026px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .contenedor {
+        display: flex;
+        margin-top: 1rem;
+        justify-content: center;
+        gap: 5rem;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        padding: 20px;
+        box-sizing: border-box;
+        border: 1px solid black;
+    }
+
+        .card.informacion {
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+
+
+
+    @@media screen and (max-width: 768px) {
+
+        .card {
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .card.informacion {
+                border: 0;
+            }
+
+        .container {
+            display: flex;
+            height: 300px;
+            justify-content: center;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+            gap: 1rem;
+        }
+    }
+
+</style>

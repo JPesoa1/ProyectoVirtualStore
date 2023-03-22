@@ -14,14 +14,17 @@ namespace ProyectoVirtualStore.Repository
             this.context = context;
         }
 
-        public List<Juegos> GetJuegos()
+        public async Task<List<Juegos>> GetJuegos()
         {
             var consulta = from datos in this.context.Juegos
                            select datos;
-            return consulta.ToList();
+            return await consulta.ToListAsync();
         }
 
-
+        public async Task<Juegos> GetJuego(int id)
+        {
+            return await this.context.Juegos.FirstOrDefaultAsync(x => x.IdJuego==id);
+        }
         private int GetMaxIdUsuario()
         {
             if (this.context.Usuarios.Count() == 0)
@@ -79,6 +82,38 @@ namespace ProyectoVirtualStore.Repository
             }
         }
 
+        public async Task<List<Comentarios>> GetComentarios(int idjuego)
+        {
+            return await this.context.Comentarios.Where(x =>x.IdJuego==idjuego).ToListAsync();
+        }
+        private int MaxIdComentario() 
+        {
 
+            if (this.context.Comentarios.Count() == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.context.Comentarios.Max(z => z.IdComentario) + 1;
+            }
+
+        }
+
+        public async Task InsertComentarios(int idjuego, int idusuario, string comentario,DateTime fecha)
+        {
+            Comentarios comentarios = new Comentarios();
+            comentarios.Comentario = comentario;
+            comentarios.IdUsuario = idusuario;
+            comentarios.IdJuego= idjuego;
+            comentarios.IdComentario = this.MaxIdComentario();
+            comentarios.FechaPost=fecha;
+
+            this.context.Comentarios.Add(comentarios);
+            //GUARDAMOS CAMBIOS EN LA BASE DE DATOS
+            await this.context.SaveChangesAsync();
+        }
+
+       
     }
 }
