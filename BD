@@ -1,0 +1,52 @@
+-- Creación de tabla "juegos"
+CREATE TABLE juegos (
+  id_juego INT NOT NULL ,
+  nombre_juego NVARCHAR(60) NOT NULL,
+  descripcion_juego NVARCHAR(255),
+  precio_juego DECIMAL(10,2) NOT NULL,
+  estado NVARCHAR(50),
+  imagen NVARCHAR(200)
+  PRIMARY KEY (id_juego)
+);
+
+-- Creación de tabla "categorias"
+CREATE TABLE categorias (
+  id_categoria INT NOT NULL ,
+  nombre_categoria NVARCHAR(255) NOT NULL,
+  descripcion_categoria NVARCHAR(255),
+  PRIMARY KEY (id_categoria)
+);
+
+-- Creación de tabla intermedia "juegos_categorias"
+CREATE TABLE juegos_categorias (
+  id_juego INT NOT NULL,
+  id_categoria INT NOT NULL,
+  PRIMARY KEY (id_juego, id_categoria),
+  FOREIGN KEY (id_juego) REFERENCES juegos(id_juego),
+  FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+);
+
+-- Creación de tabla "compras"
+CREATE TABLE compras (
+  id_compra INT NOT NULL ,
+  id_usuario INT NOT NULL,
+  id_juego INT NOT NULL,
+  fecha_compra DATE NOT NULL,
+  cantidad_comprada INT NOT NULL,
+  PRIMARY KEY (id_compra),
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+  FOREIGN KEY (id_juego) REFERENCES juegos(id_juego)
+);
+
+-- Creación de tabla "usuarios"
+CREATE TABLE usuarios (
+  id_usuario INT NOT NULL ,
+  nombre_usuario NVARCHAR(70) NOT NULL,
+  correo_electronico NVARCHAR(100) NOT NULL,
+  pass VARBINARY(MAX),
+  salt NVARCHAR(50),
+  imagen NVARCHAR(50),
+  PRIMARY KEY (id_usuario)
+);
+
+select * from usuarios where correo_electronico='josepesoa002@gmail.com'
