@@ -4,7 +4,7 @@
     {
         public Juegos Juego { get; set; }
 
-        public List<Comentarios> Comentarios { get; set; }
+        public List<VistaComentarios> VistaComentarios { get; set; }
 
 
     }

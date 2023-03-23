@@ -18,12 +18,27 @@ namespace ProyectoVirtualStore.Controllers
         }
 
 
+
+
         [AuthorizeUsers]
         public async Task<IActionResult> Index()
+        {
+            DatosJuegosEstados estados = new DatosJuegosEstados();
+            estados.juegosPopular = await this.repo.GetJuegosEstados("popular");
+            estados.juegosTendencia = await this.repo.GetJuegosEstados("tendencia");
+            estados.juegosEstablecido = await this.repo.GetJuegosEstados("establecido");
+
+           
+            return View(estados);
+        }
+
+
+        public async Task<IActionResult> Filtros() 
         {
             List<Juegos> juegos = await this.repo.GetJuegos();
             return View(juegos);
         }
+
 
         public IActionResult Privacy()
         {

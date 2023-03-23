@@ -16,5 +16,9 @@ namespace ProyectoVirtualStore.Repository
         Task<List<Comentarios>> GetComentarios(int id);
         Task InsertComentarios(int idjuego,int idusuario,string comentario, DateTime fecha);
 
+        Task<List<VistaComentarios>> GetVistaComentarios(int id);
+
+        Task<List<Juegos>> GetJuegosEstados(string estado);
+
     }
 }

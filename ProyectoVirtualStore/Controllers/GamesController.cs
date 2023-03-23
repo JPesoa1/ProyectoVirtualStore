@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProyectoVirtualStore.Filters;
 using ProyectoVirtualStore.Models;
 using ProyectoVirtualStore.Repository;
+using System.Security.Claims;
 
 namespace ProyectoVirtualStore.Controllers
 {
@@ -19,7 +21,7 @@ namespace ProyectoVirtualStore.Controllers
         {
             DatosJuego datosJuego = new DatosJuego();
             datosJuego.Juego = await this.repo.GetJuego(idjuego);
-            datosJuego.Comentarios = await this.repo.GetComentarios(idjuego);
+            datosJuego.VistaComentarios = await this.repo.GetVistaComentarios(idjuego);
             return View(datosJuego);
         }
 
@@ -31,14 +33,17 @@ namespace ProyectoVirtualStore.Controllers
             // Obtener la fecha y hora actual como DateTime
             DateTime now = DateTime.Now;
 
-            await this.repo.InsertComentarios(idjuego, 5, texto, now);
+            int idusuario =int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            await this.repo.InsertComentarios(idjuego, idusuario, texto, now);
 
             DatosJuego datosJuego = new DatosJuego();
             datosJuego.Juego = await this.repo.GetJuego(idjuego);
-            datosJuego.Comentarios = await this.repo.GetComentarios(idjuego);
+            datosJuego.VistaComentarios = await this.repo.GetVistaComentarios(idjuego);
             
             return View(datosJuego);
         }
+
+        
 
     }
 }

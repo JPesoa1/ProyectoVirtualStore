@@ -15,15 +15,16 @@
     </div>
 
 
-    @if (Model.Comentarios != null)
+    @if (Model.VistaComentarios != null)
     {
-        @foreach (Comentarios comentarios in Model.Comentarios)
+        @foreach (VistaComentarios comentarios in Model.VistaComentarios)
         {
             <article style="border:1px solid black">
                 <div class="flex items-center mb-4 space-x-4">
                     <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
                     <div class="space-y-1 font-medium dark:text-white">
-                        <p> @comentarios.FechaPost</p>
+                        <p>@comentarios.NombreUsuario<time  class="block text-sm text-gray-500 dark:text-gray-400">@comentarios.FechaPost</time></p>
+                       
                     </div>
                 </div>
 
@@ -33,7 +34,7 @@
         }
 
     }
-    else if (Model.Comentarios.Count == 0)
+    else if (Model.VistaComentarios.Count == 0 || Model.VistaComentarios == null)
     {
 
         <h1>Sin comentarios de momento se el primero</h1>
