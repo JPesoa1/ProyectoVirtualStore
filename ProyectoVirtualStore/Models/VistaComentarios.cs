@@ -7,6 +7,9 @@ namespace ProyectoVirtualStore.Models
     public class VistaComentarios
     {
         [Key]
+        [Column("id_comentario")]
+        public int IdComentario { get; set; }
+
         [Column("id_usuario")]
         public int IdUsuario { get; set; }
 

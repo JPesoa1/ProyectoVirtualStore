@@ -1,6 +1,19 @@
 ﻿@model List<Juegos>
 @{
     List<Categorias> categorias = ViewData["CATEGORIAS"] as List<Categorias>;
+
+    int numregistros = 0;
+    string categoria = "";
+    int precio = 0;
+    int numeropagina = 1;
+    //VAMOS A RECIBIR SIEMPRE EL NUMERO DE REGISTROS???
+    if (ViewData["REGISTROS"] != null)
+    {
+        numregistros = (int)ViewData["REGISTROS"];
+        categoria = ViewData["CATEGORIA"].ToString();
+        precio = int.Parse(ViewData["PRECIO"].ToString());
+    }
+
 }
 <form method="post">
     <label>Precio</label>
@@ -18,7 +31,7 @@
         }
 
     </select>
-    <button>
+    <button class="btn btn-primary">
         Filtrar
     </button>
 </form>
@@ -34,8 +47,8 @@
                 <a asp-controller="Home"
                     asp-action="Filtros"
                     asp-route-posicion="@i"
-                    asp-route-categoria="@ViewData[""]"
-                    asp-route-precio="@ViewData[""]">
+                    asp-route-categoria="@categoria"
+                    asp-route-precio="@precio">
                     Página @numeropagina
                 </a>
             </li>

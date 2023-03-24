@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 using ProyectoVirtualStore.Filters;
 using ProyectoVirtualStore.Models;
 using ProyectoVirtualStore.Repository;
@@ -35,9 +35,13 @@ namespace ProyectoVirtualStore.Controllers
 
 
             int idusuario =int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+
             await this.repo.InsertComentarios(idjuego, idusuario, texto, now);
 
             DatosJuego datosJuego = new DatosJuego();
+
+
             datosJuego.Juego = await this.repo.GetJuego(idjuego);
             datosJuego.VistaComentarios = await this.repo.GetVistaComentarios(idjuego);
             

@@ -10,7 +10,7 @@ using System.Diagnostics.Metrics;
 
 //ALTER VIEW V_COMENTARIO_USUARIO
 //AS
-//	SELECT	u.id_usuario, u.nombre_usuario , u.imagen, c.id_juego , c.comentario , c.fecha_post
+//	SELECT c.id_comentario, u.id_usuario, u.nombre_usuario , u.imagen, c.id_juego , c.comentario , c.fecha_post
 //	FROM USUARIOS u
 //	INNER JOIN COMENTARIOS c ON u.id_usuario=c.id_usuario;
 //GO
@@ -20,8 +20,7 @@ using System.Diagnostics.Metrics;
 
 
 
-
-//CREATE PROCEDURE SP_GRUPO_JUEGOS_FILTROS
+//ALTER PROCEDURE SP_GRUPO_JUEGOS_FILTROS
 //(@posicion INT, @categoria NVARCHAR(50),@precio DECIMAL
 //, @numeroregistros INT OUT)
 //AS
@@ -36,10 +35,10 @@ using System.Diagnostics.Metrics;
 //	ON j.id_juego = jc.id_juego
 //	WHERE jc.id_categoria = @idcategoria and j.precio_juego <= @precio;
 
-//SELECT* FROM
-//    (SELECT CAST(
-//        ROW_NUMBER() OVER (ORDER BY j.nombre_juego) AS INT) AS POSICION,
-//        j.id_juego, j.descripcion_juego, j.precio_juego, j.estado
+//SELECT id_juego, nombre_juego, descripcion_juego, precio_juego, estado FROM
+//        (SELECT CAST(
+//            ROW_NUMBER() OVER(ORDER BY j.nombre_juego) AS INT) AS POSICION,
+//            j.id_juego, j.nombre_juego , j.descripcion_juego, j.precio_juego, j.estado
 //        FROM JUEGOS j
 //		INNER JOIN juegos_categorias jc ON j.id_juego = jc.id_juego
 //        WHERE jc.id_categoria=@idcategoria and j.precio_juego <= @precio) AS QUERY
@@ -188,7 +187,7 @@ namespace ProyectoVirtualStore.Repository
 
         public async Task<ModelPaginarJuegos> GetJuegosFiltros(int posicion, Decimal precio, string categoria)
         {
-            string sql = "SP_GRUPO_JUEGOS_FILTROS @posicion, @categoria , @precio , @numeroregistros";
+            string sql = "SP_GRUPO_JUEGOS_FILTROS @posicion, @categoria , @precio , @numeroregistros OUT";
             SqlParameter pamposicion =
                 new SqlParameter("@posicion", posicion);
             SqlParameter pamcategoria =
