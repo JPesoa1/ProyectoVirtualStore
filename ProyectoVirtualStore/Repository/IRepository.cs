@@ -23,6 +23,8 @@ namespace ProyectoVirtualStore.Repository
 
         Task<List<Categorias>> GetCategorias();
 
+        Task<List<Juegos>> GetJuegosCarritosAsync(List<int> idjuegos);
+
 
 
     }

@@ -210,5 +210,11 @@ namespace ProyectoVirtualStore.Repository
 
 
         }
+
+
+        public async Task<List<Juegos>> GetJuegosCarritosAsync(List<int> idjuegos) {
+
+            return await this.context.Juegos.Where(x => idjuegos.Contains(x.IdJuego)).ToListAsync();
+        }
     }
 }

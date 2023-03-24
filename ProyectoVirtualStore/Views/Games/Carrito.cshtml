@@ -1,0 +1,21 @@
+﻿@model  List<Juegos>
+
+
+<h1>Carrito</h1>
+
+@if(Model != null){
+
+    @foreach (Juegos juegos in Model)
+    {
+        <h1>@juegos.NombreJuego :  @juegos.PrecioJuego</h1>
+        <a asp-controller="Games" asp-action="Carrito" asp-route-idproducto="@juegos.IdJuego">Eliminar</a>
+        <hr/>
+    }
+    <a asp-controller="Games" asp-action="Compra">
+        Realizar Pedido
+    </a>
+}else{
+    <p style="color:red">
+        Carrito Vacio papa
+    </p>
+}

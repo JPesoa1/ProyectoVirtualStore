@@ -1,4 +1,7 @@
 ﻿@model DatosJuego
+@{
+    List<int> carrito = Context.Session.GetObject<List<int>>("CARRITO");
+}
 
 <div class="contenedor padre">
     <div class="card">
@@ -12,6 +15,23 @@
         <p>
             @Model.Juego.DescripcionJuego
         </p>
+    </div>
+    <div>
+        @if (carrito != null && carrito.Contains(Model.Juego.IdJuego))
+        {
+
+            <button disabled>
+                Ya esta en carrito
+            </button>
+        }
+        else
+        {
+            <a style="color:blue" asp-controller="Games" asp-action="Index" asp-route-idjuego="@Model.Juego.IdJuego" asp-route-idjuegocarrito="@Model.Juego.IdJuego">
+                Añadir al carrito
+            </a>
+        
+        }
+       
     </div>
 
 

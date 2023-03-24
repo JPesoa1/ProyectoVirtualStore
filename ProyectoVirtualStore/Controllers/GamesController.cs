@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using ProyectoVirtualStore.Extensions;
 using ProyectoVirtualStore.Filters;
 using ProyectoVirtualStore.Models;
 using ProyectoVirtualStore.Repository;
@@ -17,8 +17,28 @@ namespace ProyectoVirtualStore.Controllers
         }
 
        
-        public async Task<IActionResult> Index(int idjuego)
+        public async Task<IActionResult> Index(int idjuego, int? idjuegocarrito)
         {
+            if (idjuegocarrito != null) 
+            {
+                List<int> carrito;
+                if (HttpContext.Session.GetObject<List<int>>("CARRITO") == null)
+                {
+                    carrito = new List<int>();
+                }
+                else {
+                    carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+
+                }
+                if (carrito.Contains(idjuegocarrito.Value) == false) {
+                    carrito.Add(idjuegocarrito.Value);
+                    HttpContext.Session.SetObject("CARRITO", carrito);
+                
+                }
+
+            }
+
+
             DatosJuego datosJuego = new DatosJuego();
             datosJuego.Juego = await this.repo.GetJuego(idjuego);
             datosJuego.VistaComentarios = await this.repo.GetVistaComentarios(idjuego);
@@ -46,6 +66,34 @@ namespace ProyectoVirtualStore.Controllers
             datosJuego.VistaComentarios = await this.repo.GetVistaComentarios(idjuego);
             
             return View(datosJuego);
+        }
+
+        public async  Task<IActionResult> Carrito(int? idproducto)
+        {
+            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            if (carrito == null)
+            {
+                return View();
+            }
+            else 
+            {
+                if (idproducto != null) { 
+                    carrito.Remove(idproducto.Value);
+                    HttpContext.Session.SetObject("CARRITO", carrito);
+
+                }
+                List<Juegos> juegos = await this.repo.GetJuegosCarritosAsync(carrito);
+                return View(juegos);
+            }
+
+        }
+
+        public async Task<IActionResult> Compra() {
+            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            List<Juegos> juegos = await this.repo.GetJuegosCarritosAsync(carrito);
+            HttpContext.Session.Remove("CARRITO");
+            return View(juegos);
+
         }
 
         

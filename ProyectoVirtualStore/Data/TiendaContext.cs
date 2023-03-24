@@ -15,6 +15,8 @@ namespace ProyectoVirtualStore.Data
 
         public DbSet<Categorias> Categorias{ get; set; }
 
+        public DbSet<Compra> Compras { get; set; }
+
 
 
 
