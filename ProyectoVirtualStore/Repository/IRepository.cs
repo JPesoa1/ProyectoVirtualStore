@@ -5,6 +5,7 @@ namespace ProyectoVirtualStore.Repository
     public interface IRepository
     {
         Task<List<Juegos>> GetJuegos();
+        Task<ModelPaginarJuegos> GetJuegosFiltros(int posicion, Decimal precio, string categoria);
 
         Task RegisterUser(string nombreusuario, string password, string email);
 
@@ -19,6 +20,10 @@ namespace ProyectoVirtualStore.Repository
         Task<List<VistaComentarios>> GetVistaComentarios(int id);
 
         Task<List<Juegos>> GetJuegosEstados(string estado);
+
+        Task<List<Categorias>> GetCategorias();
+
+
 
     }
 }

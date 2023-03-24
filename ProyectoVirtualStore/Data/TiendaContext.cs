@@ -13,6 +13,8 @@ namespace ProyectoVirtualStore.Data
         public DbSet<Comentarios> Comentarios{ get; set; }
         public DbSet<VistaComentarios> VistaComentarios{ get; set; }
 
+        public DbSet<Categorias> Categorias{ get; set; }
+
 
 
 

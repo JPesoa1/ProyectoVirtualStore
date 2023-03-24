@@ -24,7 +24,7 @@ builder.Services.AddControllersWithViews(x => x.EnableEndpointRouting = false).A
 //string connectionString =
 //  "Data Source=LOCALHOST\\DESARROLLO;Initial Catalog=TIENDAVIRTUAL;User ID=SA;Password=MCSD2023";
 
-string connectionString = builder.Configuration.GetConnectionString("SqlTiendaVirtualCasa");
+string connectionString = builder.Configuration.GetConnectionString("SqlAzureTiendaVirtual");
 
 builder.Services.AddTransient<IRepository, RepositorySQLTienda>();
 builder.Services.AddDbContext<TiendaContext>

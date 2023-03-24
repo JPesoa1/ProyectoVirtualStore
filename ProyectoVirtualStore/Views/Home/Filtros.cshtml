@@ -1,17 +1,50 @@
 ﻿@model List<Juegos>
-
+@{
+    List<Categorias> categorias = ViewData["CATEGORIAS"] as List<Categorias>;
+}
 <form method="post">
     <label>Precio</label>
-    <input id="rango" type="range" name="precio"
+    <input id="rango" type="range" name="precio" 
            min="0" max="100" value="90" step="10">
-    <p>Value: <output id="value"></output></p>
+    <p>Precio: <output id="value"></output></p>
 
-    <label>Categoria</label>
-    <select>
+
+    <label>Categorias</label>
+    <select name="categoria">
         <option>Seleccion</option>
-        <option>categorias</option>
+        @foreach (var item in categorias)
+        {
+            <option name="categoria" value="@item.NombreCategoria">@item.NombreCategoria</option>
+        }
+
     </select>
+    <button>
+        Filtrar
+    </button>
 </form>
+
+
+@if (Model != null)
+{
+     
+    <ul class="list-group list-group-horizontal">
+        @for (int i = 1; i <= numregistros; i += 4)
+        {
+            <li class="list-group-item list-group-item-success">
+                <a asp-controller="Home"
+                    asp-action="Filtros"
+                    asp-route-posicion="@i"
+                    asp-route-categoria="@ViewData[""]"
+                    asp-route-precio="@ViewData[""]">
+                    Página @numeropagina
+                </a>
+            </li>
+            numeropagina += 1;
+        }
+    </ul>
+
+
+}
 
 
 <div class="card-container container">

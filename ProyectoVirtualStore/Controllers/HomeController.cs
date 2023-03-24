@@ -33,9 +33,41 @@ namespace ProyectoVirtualStore.Controllers
         }
 
 
-        public async Task<IActionResult> Filtros() 
+        public async Task<IActionResult> Filtros(int? posicion ,string categoria , Decimal precio) 
         {
-            List<Juegos> juegos = await this.repo.GetJuegos();
+            if (posicion == null)
+            {
+                posicion = 1;
+                ViewData["CATEGORIAS"] = await this.repo.GetCategorias();
+                List<Juegos> juegos = await this.repo.GetJuegos();
+                return View(juegos);
+
+            }
+            else {
+
+                ModelPaginarJuegos model = await this.repo.GetJuegosFiltros(posicion.Value, precio, categoria);
+                List<Juegos> juegos = model.Juegos;
+                int numRegistros = model.NumeroRegistros;
+                ViewData["CATEGORIAS"] = await this.repo.GetCategorias();
+                ViewData["REGISTROS"] = numRegistros;
+                ViewData["CATEGORIA"] = categoria;
+                ViewData["PRECIO"] = precio;
+                return View(juegos);
+            }
+            
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Filtros(Decimal precio, string categoria )
+        {
+            ModelPaginarJuegos model = await this.repo.GetJuegosFiltros(1, precio, categoria);
+            List<Juegos> juegos = model.Juegos;
+            int numRegistros = model.NumeroRegistros;
+            ViewData["CATEGORIAS"] = await this.repo.GetCategorias();
+            ViewData["REGISTROS"] = numRegistros;
+            ViewData["CATEGORIA"] = categoria;
+            ViewData["PRECIO"] = precio;
             return View(juegos);
         }
 

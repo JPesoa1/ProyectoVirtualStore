@@ -33,6 +33,7 @@ namespace ProyectoVirtualStore.Controllers
             // Obtener la fecha y hora actual como DateTime
             DateTime now = DateTime.Now;
 
+
             int idusuario =int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             await this.repo.InsertComentarios(idjuego, idusuario, texto, now);
 

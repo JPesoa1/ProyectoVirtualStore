@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoVirtualStore.Data;
 using ProyectoVirtualStore.Helpers;
 using ProyectoVirtualStore.Models;
+using System.Data;
 using System.Diagnostics.Metrics;
 
 #region
@@ -12,6 +13,38 @@ using System.Diagnostics.Metrics;
 //	SELECT	u.id_usuario, u.nombre_usuario , u.imagen, c.id_juego , c.comentario , c.fecha_post
 //	FROM USUARIOS u
 //	INNER JOIN COMENTARIOS c ON u.id_usuario=c.id_usuario;
+//GO
+
+
+
+
+
+
+
+//CREATE PROCEDURE SP_GRUPO_JUEGOS_FILTROS
+//(@posicion INT, @categoria NVARCHAR(50),@precio DECIMAL
+//, @numeroregistros INT OUT)
+//AS
+//    declare @idcategoria int
+//	select @idcategoria = c.id_categoria
+//	from categorias c
+//	where c.nombre_categoria=@categoria
+
+//	SELECT @numeroregistros = COUNT(jc.id_juego) 
+//	FROM juegos_categorias jc 
+//	INNER JOIN juegos j
+//	ON j.id_juego = jc.id_juego
+//	WHERE jc.id_categoria = @idcategoria and j.precio_juego <= @precio;
+
+//SELECT* FROM
+//    (SELECT CAST(
+//        ROW_NUMBER() OVER (ORDER BY j.nombre_juego) AS INT) AS POSICION,
+//        j.id_juego, j.descripcion_juego, j.precio_juego, j.estado
+//        FROM JUEGOS j
+//		INNER JOIN juegos_categorias jc ON j.id_juego = jc.id_juego
+//        WHERE jc.id_categoria=@idcategoria and j.precio_juego <= @precio) AS QUERY
+//    WHERE QUERY.POSICION >= @POSICION AND QUERY.POSICION < (@POSICION + 4)
+
 //GO
 #endregion
 
@@ -40,7 +73,7 @@ namespace ProyectoVirtualStore.Repository
         public async Task<List<Juegos>> GetJuegosEstados(string estado)
         {
             var consulta = from datos in this.context.Juegos
-                           where datos.Estado ==estado
+                           where datos.Estado == estado
                            select datos;
             return await consulta.ToListAsync();
         }
@@ -148,6 +181,35 @@ namespace ProyectoVirtualStore.Repository
             await this.context.SaveChangesAsync();
         }
 
+        public async Task<List<Categorias>> GetCategorias()
+        {
+            return await this.context.Categorias.ToListAsync();
+        }
 
+        public async Task<ModelPaginarJuegos> GetJuegosFiltros(int posicion, Decimal precio, string categoria)
+        {
+            string sql = "SP_GRUPO_JUEGOS_FILTROS @posicion, @categoria , @precio , @numeroregistros";
+            SqlParameter pamposicion =
+                new SqlParameter("@posicion", posicion);
+            SqlParameter pamcategoria =
+                new SqlParameter("@categoria", categoria);
+            SqlParameter pamprecio =
+               new SqlParameter("@precio", precio);
+            SqlParameter pamnumerosregistros =
+               new SqlParameter("@numeroregistros", -1);
+
+            pamnumerosregistros.Direction = ParameterDirection.Output;
+            var consulta =
+                this.context.Juegos.FromSqlRaw(sql, pamposicion, pamcategoria, pamprecio, pamnumerosregistros);
+            List<Juegos> juegos = await consulta.ToListAsync();
+            int registros = (int)pamnumerosregistros.Value;
+            return new ModelPaginarJuegos
+            {
+                NumeroRegistros = registros,
+                Juegos = juegos
+            };
+
+
+        }
     }
 }
