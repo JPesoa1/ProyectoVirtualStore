@@ -24,8 +24,12 @@ namespace ProyectoVirtualStore.Models
         [Column("estado")]
         public string Estado{ get; set; }
 
+        [Column("nombreimagen")]
+        public string NombreImagen { get; set; }
 
-       
+
+
+
 
 
 

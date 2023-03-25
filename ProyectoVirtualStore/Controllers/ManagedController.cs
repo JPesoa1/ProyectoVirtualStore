@@ -97,5 +97,14 @@ namespace ProyectoVirtualStore.Controllers
             return View(nombre);
         }
 
+
+        [HttpPost]
+        public IActionResult User(IFormFile file)
+        {
+           
+            string nombre = HttpContext.Session.GetString("USUARIO");
+            return View(nombre);
+        }
+
     }
 }

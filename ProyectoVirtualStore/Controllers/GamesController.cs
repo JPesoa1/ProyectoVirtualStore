@@ -37,7 +37,7 @@ namespace ProyectoVirtualStore.Controllers
                 }
 
             }
-
+            ViewData["IMAGENES"] = await this.repo.GetImagenes(idjuego);
 
             DatosJuego datosJuego = new DatosJuego();
             datosJuego.Juego = await this.repo.GetJuego(idjuego);
@@ -61,6 +61,7 @@ namespace ProyectoVirtualStore.Controllers
 
             DatosJuego datosJuego = new DatosJuego();
 
+            ViewData["IMAGENES"] = await this.repo.GetImagenes(idjuego);
 
             datosJuego.Juego = await this.repo.GetJuego(idjuego);
             datosJuego.VistaComentarios = await this.repo.GetVistaComentarios(idjuego);
@@ -89,12 +90,25 @@ namespace ProyectoVirtualStore.Controllers
         }
 
         public async Task<IActionResult> Compra() {
+
+            DateTime now = DateTime.Now;
+
+
+            int idusuario = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+
             List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
             List<Juegos> juegos = await this.repo.GetJuegosCarritosAsync(carrito);
+
+
+            await this.repo.InsertarCompra(juegos,idusuario,now);
             HttpContext.Session.Remove("CARRITO");
             return View(juegos);
 
         }
+
+        
+
 
         
 

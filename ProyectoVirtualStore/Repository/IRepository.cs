@@ -25,7 +25,11 @@ namespace ProyectoVirtualStore.Repository
 
         Task<List<Juegos>> GetJuegosCarritosAsync(List<int> idjuegos);
 
+        Task InsertarCompra(List<Juegos> juegos, int idusuario , DateTime fecha);
 
 
+        Task<Compra> FindCompra(int idcompra);
+
+        Task<List<Imagenes>> GetImagenes(int idjuego);
     }
 }

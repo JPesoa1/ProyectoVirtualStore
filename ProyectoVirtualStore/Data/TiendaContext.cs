@@ -16,9 +16,16 @@ namespace ProyectoVirtualStore.Data
         public DbSet<Categorias> Categorias{ get; set; }
 
         public DbSet<Compra> Compras { get; set; }
+        public DbSet<CompraJuego> CompraJuegos { get; set; }
+
+        public DbSet<Imagenes> Imagenes { get; set; }
 
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CompraJuego>()
+                .HasKey(cj => new { cj.IdCompra, cj.IdJuego });
+        }
 
 
 

@@ -12,7 +12,8 @@ using System.Diagnostics.Metrics;
 //AS
 //	SELECT c.id_comentario, u.id_usuario, u.nombre_usuario , u.imagen, c.id_juego , c.comentario , c.fecha_post
 //	FROM USUARIOS u
-//	INNER JOIN COMENTARIOS c ON u.id_usuario=c.id_usuario;
+//	INNER JOIN COMENTARIOS c ON u.id_usuario=c.id_usuario
+//	ORDER BY c.fecha_post
 //GO
 
 
@@ -215,6 +216,66 @@ namespace ProyectoVirtualStore.Repository
         public async Task<List<Juegos>> GetJuegosCarritosAsync(List<int> idjuegos) {
 
             return await this.context.Juegos.Where(x => idjuegos.Contains(x.IdJuego)).ToListAsync();
+        }
+
+
+
+        private int GetMaxIdCompra()
+        {
+            if (this.context.Compras.Count() == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.context.Compras.Max(z => z.IdCompra) + 1;
+            }
+
+        }
+
+
+        public async Task InsertarCompra(List<Juegos> juegos , int idUsuario,DateTime fecha)
+        {
+            Decimal preciototal = 0;
+
+            int idcompra = this.GetMaxIdCompra();
+            Compra compra = new Compra();
+            compra.IdCompra = idcompra;
+            compra.IdUsuario = idUsuario;
+            compra.PrecioTotal = 0;
+            compra.FechaCompra = fecha;
+
+              await this.context.Compras.AddAsync(compra);
+             await  this.context.SaveChangesAsync();
+
+            for (int i = 0; i < juegos.Count; i++) {
+                preciototal += juegos[i].PrecioJuego;
+                CompraJuego compraJuego = new CompraJuego();
+                compraJuego.IdCompra = idcompra;
+                compraJuego.IdJuego = juegos[i].IdJuego;
+                compraJuego.PrecioJuego = juegos[i].PrecioJuego;
+                this.context.Add(compraJuego);
+               
+            }
+            await this.context.SaveChangesAsync();
+
+
+            Compra compraFinal = await FindCompra(idcompra);
+
+            compraFinal.PrecioTotal= preciototal;
+            this.context.Attach(compraFinal);
+            await this.context.SaveChangesAsync();
+
+        }
+
+
+        public async Task<Compra> FindCompra(int idcompra) {
+            return await this.context.Compras.FirstOrDefaultAsync(x => x.IdCompra==idcompra);
+        }
+
+        public async  Task<List<Imagenes>> GetImagenes(int idjuego)
+        {
+            return await this.context.Imagenes.Where(x => x.IdJuego == idjuego).ToListAsync();
         }
     }
 }
