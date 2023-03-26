@@ -15,7 +15,7 @@ namespace ProyectoVirtualStore.Repository
 
 
         Task<List<Comentarios>> GetComentarios(int id);
-        Task InsertComentarios(int idjuego,int idusuario,string comentario, DateTime fecha);
+        Task InsertComentarios(int idjuego, int idusuario, string comentario, DateTime fecha);
 
         Task<List<VistaComentarios>> GetVistaComentarios(int id);
 
@@ -25,11 +25,17 @@ namespace ProyectoVirtualStore.Repository
 
         Task<List<Juegos>> GetJuegosCarritosAsync(List<int> idjuegos);
 
-        Task InsertarCompra(List<Juegos> juegos, int idusuario , DateTime fecha);
+        Task InsertarCompra(List<Juegos> juegos, int idusuario, DateTime fecha);
 
 
         Task<Compra> FindCompra(int idcompra);
 
         Task<List<Imagenes>> GetImagenes(int idjuego);
+
+        Task<Usuario> FindUsuario(int idususario)
+
+        Task ModificarUsuarioImagen(int idususario, string imagen);
+
+
     }
 }

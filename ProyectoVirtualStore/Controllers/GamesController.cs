@@ -16,7 +16,7 @@ namespace ProyectoVirtualStore.Controllers
             this.repo = repo;
         }
 
-       
+        [AuthorizeUsers]
         public async Task<IActionResult> Index(int idjuego, int? idjuegocarrito)
         {
             if (idjuegocarrito != null) 
@@ -69,6 +69,7 @@ namespace ProyectoVirtualStore.Controllers
             return View(datosJuego);
         }
 
+        [AuthorizeUsers]
         public async  Task<IActionResult> Carrito(int? idproducto)
         {
             List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
@@ -103,7 +104,7 @@ namespace ProyectoVirtualStore.Controllers
 
             await this.repo.InsertarCompra(juegos,idusuario,now);
             HttpContext.Session.Remove("CARRITO");
-            return View(juegos);
+            return RedirectToAction("Index","Home");
 
         }
 

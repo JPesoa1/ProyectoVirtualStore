@@ -12,13 +12,16 @@ namespace ProyectoVirtualStore.Controllers
 {
     public class ManagedController : Controller
     {
-
+        private IWebHostEnvironment webHostEnvironment;
         private IRepository repo;
 
-        public ManagedController(IRepository repo)
+        public ManagedController(IWebHostEnvironment webHostEnvironment, IRepository repo)
         {
+            this.webHostEnvironment = webHostEnvironment;
             this.repo = repo;
         }
+
+        
 
         public IActionResult Login()
         {
@@ -78,7 +81,7 @@ namespace ProyectoVirtualStore.Controllers
 
             await this.repo.RegisterUser(nombreusuario,password,email);
             ViewData["MENSAJE"] = "Usuario registrado correctamnet";
-            return View();
+            return RedirectToAction("Index","Home");
         }
 
 
@@ -91,19 +94,54 @@ namespace ProyectoVirtualStore.Controllers
 
         }
 
-        public IActionResult User() 
+
+        [AuthorizeUsers]
+        public async Task<IActionResult> User() 
         {
             string nombre =HttpContext.Session.GetString("USUARIO");
-            return View(nombre);
+            int idusuario = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            Usuario usuario = await this.repo.FindUsuario(idusuario);
+            return View(usuario);
         }
 
-
+        [AuthorizeUsers]
         [HttpPost]
-        public IActionResult User(IFormFile file)
+        public async  Task<IActionResult> User(IFormFile file)
         {
+            string rooFolder = this.webHostEnvironment.WebRootPath;
            
+
+            string filename =  file.FileName;
+            int idusuario = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            string path = Path.Combine(rooFolder,"perfil",filename);
+            string filenameUsuario = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value + "_" + filename;
+            string newpath = Path.Combine(rooFolder, "perfil", filenameUsuario);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            { 
+                await file.CopyToAsync(stream);
+            }
+            if (System.IO.File.Exists(path))
+            {
+                // Cambiar el nombre del archivo
+                System.IO.File.Move(path, newpath);
+
+                // Actualizar la base de datos u otros datos relevantes con el nuevo nombre de archivo
+                await this.repo.ModificarUsuarioImagen(idusuario, filenameUsuario);
+            }
+           
+
+            using (Stream stream = new FileStream(newpath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            await this.repo.ModificarUsuarioImagen(idusuario,filenameUsuario);
             string nombre = HttpContext.Session.GetString("USUARIO");
-            return View(nombre);
+
+            Usuario usuario = await this.repo.FindUsuario(idusuario);
+            return View(usuario);
         }
 
     }

@@ -1,4 +1,4 @@
-﻿
+﻿@model Usuario
 
 <section style="margin-top:2rem"  class="pt-16 bg-blueGray-50">
     <div id="cardsito" class="w-full lg:w-4/12 px-4 mx-auto">
@@ -8,10 +8,20 @@
                     <div >
                         
                         <form method="post" enctype="multipart/form-data">
-                            <img style="border-radius: 50%; width: 200px; height: 200px;" src="https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2022/11/24/16692862885530.jpg" />
+
+                            @if (Model.Imagen == null)
+                            {
+                                <h2>No tiene Imagen</h2>
+                            }
+                            else
+                            {
+                              <img style="border-radius: 50%; width: 200px; height: 200px;" src="~/perfil/@Model.Imagen" />
+
+                            
+                            }
                             
                           
-                            <input type="file" name="fichero" id="fichero">
+                            <input type="file" name="file" id="fichero">
                             <button for="fichero" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="submit">
                                 Modificar Imagen
                             </button>

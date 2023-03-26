@@ -36,10 +36,10 @@ using System.Diagnostics.Metrics;
 //	ON j.id_juego = jc.id_juego
 //	WHERE jc.id_categoria = @idcategoria and j.precio_juego <= @precio;
 
-//SELECT id_juego, nombre_juego, descripcion_juego, precio_juego, estado FROM
+//SELECT id_juego, nombre_juego, descripcion_juego, precio_juego, estado, nombreimagen FROM
 //        (SELECT CAST(
 //            ROW_NUMBER() OVER(ORDER BY j.nombre_juego) AS INT) AS POSICION,
-//            j.id_juego, j.nombre_juego , j.descripcion_juego, j.precio_juego, j.estado
+//           j.id_juego, j.nombre_juego , j.descripcion_juego, j.precio_juego, j.estado, j.nombreimagen
 //        FROM JUEGOS j
 //		INNER JOIN juegos_categorias jc ON j.id_juego = jc.id_juego
 //        WHERE jc.id_categoria=@idcategoria and j.precio_juego <= @precio) AS QUERY
@@ -273,9 +273,24 @@ namespace ProyectoVirtualStore.Repository
             return await this.context.Compras.FirstOrDefaultAsync(x => x.IdCompra==idcompra);
         }
 
+        public async Task<Usuario> FindUsuario(int idususario) 
+        {
+           return await this.context.Usuarios.FirstOrDefaultAsync(x => x.IdUsuario == idususario);
+        }
+
+        public async Task ModificarUsuarioImagen(int idususario , string imagen) 
+        {
+            Usuario usuario = await FindUsuario(idususario);
+            usuario.Imagen = imagen;
+            this.context.Attach(usuario);
+            await this.context.SaveChangesAsync();
+        }
+
         public async  Task<List<Imagenes>> GetImagenes(int idjuego)
         {
             return await this.context.Imagenes.Where(x => x.IdJuego == idjuego).ToListAsync();
         }
+
+       
     }
 }

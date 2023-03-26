@@ -17,9 +17,13 @@ namespace ProyectoVirtualStore.Models
         [Column("correo_electronico")]
         public string Email { get; set; }
 
+        
 
         [Column("pass")]
         public byte[] Password { get; set; }
+
+        [Column("imagen")]
+        public string? Imagen { get; set; }
 
         [Column("salt")]
         public string Salt { get; set; }

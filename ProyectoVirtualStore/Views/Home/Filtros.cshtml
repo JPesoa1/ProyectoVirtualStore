@@ -15,16 +15,16 @@
     }
 
 }
-<form method="post">
-    <label>Precio</label>
-    <input id="rango" type="range" name="precio" 
+<form method="post" class="container">
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
+    <input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" id="rango" type="range" name="precio"
            min="0" max="100" value="90" step="10">
     <p>Precio: <output id="value"></output></p>
 
 
-    <label>Categorias</label>
-    <select name="categoria">
-        <option>Seleccion</option>
+    <label for="categorias" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
+    <select id="categorias" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="categoria">
+        <option selected>Selecciona</option>
         @foreach (var item in categorias)
         {
             <option name="categoria" value="@item.NombreCategoria">@item.NombreCategoria</option>
@@ -39,22 +39,33 @@
 
 @if (Model != null)
 {
-     
-    <ul class="list-group list-group-horizontal">
-        @for (int i = 1; i <= numregistros; i += 4)
-        {
-            <li class="list-group-item list-group-item-success">
-                <a asp-controller="Home"
-                    asp-action="Filtros"
-                    asp-route-posicion="@i"
-                    asp-route-categoria="@categoria"
-                    asp-route-precio="@precio">
-                    Página @numeropagina
-                </a>
-            </li>
-            numeropagina += 1;
-        }
-    </ul>
+
+    <nav class="container" aria-label="Page navigation example">
+        <ul class="inline-flex items-center -space-x-px">
+            @for (int i = 1; i <= numregistros; i += 4)
+            {
+
+                <li class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <a asp-controller="Home"
+               asp-action="Filtros"
+               asp-route-posicion="@i"
+               asp-route-categoria="@categoria"
+               asp-route-precio="@precio">
+                        Página @numeropagina
+                    </a>
+                </li>
+                numeropagina += 1;
+            }
+
+
+
+        </ul>
+    </nav>
+
+
+
+
+
 
 
 }
@@ -68,7 +79,8 @@
         <div style="width: 250px; height: 300px"
          class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#" class="imagen">
-                <img style="width:100%" class="rounded-t-lg" alt="@juegos.NombreJuego" />
+                <img style="width:100%;height:140px;" src="~/images/juego_@juegos.IdJuego/1_@juegos.NombreImagen" class="rounded-t-lg" alt="@juegos.NombreJuego" />
+        
             </a>
             <div class="p-5">
                 <a href="#">
