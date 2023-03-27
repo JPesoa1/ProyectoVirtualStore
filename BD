@@ -1,145 +1,99 @@
--- Creación de tabla "juegos"
-CREATE TABLE juegos (
-  id_juego INT NOT NULL ,
-  nombre_juego NVARCHAR(60) NOT NULL,
-  descripcion_juego NVARCHAR(255),
-  precio_juego DECIMAL(10,2) NOT NULL,
-  estado NVARCHAR(50),
-  imagen NVARCHAR(200)
-  PRIMARY KEY (id_juego)
-);
-
--- Creación de tabla "categorias"
-CREATE TABLE categorias (
-  id_categoria INT NOT NULL ,
-  nombre_categoria NVARCHAR(255) NOT NULL,
-  descripcion_categoria NVARCHAR(255),
-  PRIMARY KEY (id_categoria)
-);
-
--- Creación de tabla intermedia "juegos_categorias"
-CREATE TABLE juegos_categorias (
-  id_juego INT NOT NULL,
-  id_categoria INT NOT NULL,
-  PRIMARY KEY (id_juego, id_categoria),
-  FOREIGN KEY (id_juego) REFERENCES juegos(id_juego),
-  FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
-);
-
--- Creación de tabla "compras"
-CREATE TABLE compras (
-  id_compra INT NOT NULL ,
-  id_usuario INT NOT NULL,
-  id_juego INT NOT NULL,
-  fecha_compra DATE NOT NULL,
-  cantidad_comprada INT NOT NULL,
-  PRIMARY KEY (id_compra),
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
-  FOREIGN KEY (id_juego) REFERENCES juegos(id_juego)
-);
-
--- Creación de tabla "usuarios"
-CREATE TABLE usuarios (
-  id_usuario INT NOT NULL ,
-  nombre_usuario NVARCHAR(70) NOT NULL,
-  correo_electronico NVARCHAR(100) NOT NULL,
-  pass VARBINARY(MAX),
-  salt NVARCHAR(50),
-  imagen NVARCHAR(50),
-  PRIMARY KEY (id_usuario)
-);
-
-select * from usuarios where correo_electronico='josepesoa002@gmail.com'
-
-
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-Script Base de datos
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-USE [master]
+/****** Object:  Database [AZURETAJAMAR]    Script Date: 27/03/2023 9:13:35 ******/
+CREATE DATABASE [AZURETAJAMAR]  (EDITION = 'Basic', SERVICE_OBJECTIVE = 'Basic', MAXSIZE = 2 GB) WITH CATALOG_COLLATION = SQL_Latin1_General_CP1_CI_AS, LEDGER = OFF;
 GO
-/****** Object:  Database [TIENDAVIRTUAL]    Script Date: 22/03/2023 22:32:58 ******/
-CREATE DATABASE [TIENDAVIRTUAL]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'TIENDAVIRTUAL', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\TIENDAVIRTUAL.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'TIENDAVIRTUAL_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\TIENDAVIRTUAL_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT
+ALTER DATABASE [AZURETAJAMAR] SET COMPATIBILITY_LEVEL = 150
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET COMPATIBILITY_LEVEL = 150
+ALTER DATABASE [AZURETAJAMAR] SET ANSI_NULL_DEFAULT OFF 
 GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [TIENDAVIRTUAL].[dbo].[sp_fulltext_database] @action = 'enable'
-end
+ALTER DATABASE [AZURETAJAMAR] SET ANSI_NULLS OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ANSI_NULL_DEFAULT OFF 
+ALTER DATABASE [AZURETAJAMAR] SET ANSI_PADDING OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ANSI_NULLS OFF 
+ALTER DATABASE [AZURETAJAMAR] SET ANSI_WARNINGS OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ANSI_PADDING OFF 
+ALTER DATABASE [AZURETAJAMAR] SET ARITHABORT OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ANSI_WARNINGS OFF 
+ALTER DATABASE [AZURETAJAMAR] SET AUTO_SHRINK OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ARITHABORT OFF 
+ALTER DATABASE [AZURETAJAMAR] SET AUTO_UPDATE_STATISTICS ON 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET AUTO_CLOSE OFF 
+ALTER DATABASE [AZURETAJAMAR] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET AUTO_SHRINK OFF 
+ALTER DATABASE [AZURETAJAMAR] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE [AZURETAJAMAR] SET NUMERIC_ROUNDABORT OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET CURSOR_CLOSE_ON_COMMIT OFF 
+ALTER DATABASE [AZURETAJAMAR] SET QUOTED_IDENTIFIER OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE [AZURETAJAMAR] SET RECURSIVE_TRIGGERS OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET CONCAT_NULL_YIELDS_NULL OFF 
+ALTER DATABASE [AZURETAJAMAR] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE [AZURETAJAMAR] SET ALLOW_SNAPSHOT_ISOLATION ON 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET QUOTED_IDENTIFIER OFF 
+ALTER DATABASE [AZURETAJAMAR] SET PARAMETERIZATION SIMPLE 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET RECURSIVE_TRIGGERS OFF 
+ALTER DATABASE [AZURETAJAMAR] SET READ_COMMITTED_SNAPSHOT ON 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET  DISABLE_BROKER 
+ALTER DATABASE [AZURETAJAMAR] SET  MULTI_USER 
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE [AZURETAJAMAR] SET ENCRYPTION ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE [AZURETAJAMAR] SET QUERY_STORE = ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET TRUSTWORTHY OFF 
+ALTER DATABASE [AZURETAJAMAR] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 7), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 10, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+/*** The scripts of database scoped configurations in Azure should be executed inside the target database connection. ***/
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET PARAMETERIZATION SIMPLE 
+-- ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 8;
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET READ_COMMITTED_SNAPSHOT OFF 
+/****** Object:  Table [dbo].[comentarios]    Script Date: 27/03/2023 9:13:35 ******/
+SET ANSI_NULLS ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET HONOR_BROKER_PRIORITY OFF 
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET RECOVERY SIMPLE 
+CREATE TABLE [dbo].[comentarios](
+	[id_comentario] [int] NOT NULL,
+	[id_juego] [int] NOT NULL,
+	[id_usuario] [int] NOT NULL,
+	[comentario] [varchar](80) NOT NULL,
+	[fecha_post] [datetime] NOT NULL,
+ CONSTRAINT [PK_comentarios] PRIMARY KEY CLUSTERED 
+(
+	[id_comentario] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET  MULTI_USER 
+/****** Object:  Table [dbo].[usuarios]    Script Date: 27/03/2023 9:13:35 ******/
+SET ANSI_NULLS ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET PAGE_VERIFY CHECKSUM  
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET DB_CHAINING OFF 
+CREATE TABLE [dbo].[usuarios](
+	[id_usuario] [int] NOT NULL,
+	[nombre_usuario] [nvarchar](70) NOT NULL,
+	[correo_electronico] [nvarchar](100) NOT NULL,
+	[pass] [varbinary](max) NULL,
+	[imagen] [nvarchar](20) NULL,
+	[salt] [nvarchar](50) NULL,
+ CONSTRAINT [PK__usuarios__4E3E04AD5C4C8CEB] PRIMARY KEY CLUSTERED 
+(
+	[id_usuario] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+/****** Object:  View [dbo].[V_COMENTARIO_USUARIO]    Script Date: 27/03/2023 9:13:35 ******/
+SET ANSI_NULLS ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET DELAYED_DURABILITY = DISABLED 
+CREATE VIEW [dbo].[V_COMENTARIO_USUARIO]
+AS
+	SELECT c.id_comentario,u.id_usuario, u.nombre_usuario , u.imagen, c.id_juego , c.comentario , c.fecha_post
+	FROM USUARIOS u
+	INNER JOIN COMENTARIOS c ON u.id_usuario=c.id_usuario;
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET ACCELERATED_DATABASE_RECOVERY = OFF  
-GO
-ALTER DATABASE [TIENDAVIRTUAL] SET QUERY_STORE = OFF
-GO
-USE [TIENDAVIRTUAL]
-GO
-/****** Object:  Table [dbo].[categorias]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[categorias]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -151,23 +105,26 @@ CREATE TABLE [dbo].[categorias](
 PRIMARY KEY CLUSTERED 
 (
 	[id_categoria] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[comentarios]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[compra_juego]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[comentarios](
-	[id_comentario] [int] NOT NULL,
+CREATE TABLE [dbo].[compra_juego](
+	[id_compra] [int] NOT NULL,
 	[id_juego] [int] NOT NULL,
-	[id_usuario] [int] NOT NULL,
-	[comentario] [varchar](80) NOT NULL,
-	[fecha_post] [datetime] NOT NULL
+	[precio_juego] [decimal](10, 2) NULL,
+ CONSTRAINT [PK_compra_juego] PRIMARY KEY CLUSTERED 
+(
+	[id_compra] ASC,
+	[id_juego] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[compras]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[compras]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -175,16 +132,69 @@ GO
 CREATE TABLE [dbo].[compras](
 	[id_compra] [int] NOT NULL,
 	[id_usuario] [int] NOT NULL,
-	[id_juego] [int] NOT NULL,
+	[precio_total] [decimal](10, 2) NOT NULL,
 	[fecha_compra] [date] NOT NULL,
-	[cantidad_comprada] [int] NOT NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__compras__C4BAA6046F9DB13E] PRIMARY KEY CLUSTERED 
 (
 	[id_compra] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[favoritos]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[DEPT]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DEPT](
+	[DEPT_NO] [int] NULL,
+	[DNOMBRE] [nvarchar](50) NULL,
+	[LOC] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DOCTOR]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DOCTOR](
+	[HOSPITAL_COD] [nvarchar](50) NULL,
+	[DOCTOR_NO] [nvarchar](50) NULL,
+	[APELLIDO] [nvarchar](50) NULL,
+	[ESPECIALIDAD] [nvarchar](50) NULL,
+	[SALARIO] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EMP]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EMP](
+	[EMP_NO] [int] NULL,
+	[APELLIDO] [nvarchar](50) NULL,
+	[OFICIO] [nvarchar](50) NULL,
+	[DIR] [int] NULL,
+	[FECHA_ALT] [datetime] NULL,
+	[SALARIO] [int] NULL,
+	[COMISION] [int] NULL,
+	[DEPT_NO] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ENFERMO]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ENFERMO](
+	[INSCRIPCION] [nvarchar](50) NULL,
+	[APELLIDO] [nvarchar](50) NULL,
+	[DIRECCION] [nvarchar](50) NULL,
+	[FECHA_NAC] [datetime] NULL,
+	[S] [nvarchar](50) NULL,
+	[NSS] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[favoritos]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -194,7 +204,20 @@ CREATE TABLE [dbo].[favoritos](
 	[id_juego] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[imagenes]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[HOSPITAL]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HOSPITAL](
+	[HOSPITAL_COD] [nvarchar](50) NULL,
+	[NOMBRE] [nvarchar](50) NULL,
+	[DIRECCION] [nvarchar](50) NULL,
+	[TELEFONO] [nvarchar](50) NULL,
+	[NUM_CAMA] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[imagenes]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -206,10 +229,10 @@ CREATE TABLE [dbo].[imagenes](
  CONSTRAINT [PK_imagenes] PRIMARY KEY CLUSTERED 
 (
 	[id_imagen] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[juegos]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[juegos]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,13 +243,14 @@ CREATE TABLE [dbo].[juegos](
 	[descripcion_juego] [nvarchar](255) NULL,
 	[precio_juego] [decimal](10, 2) NOT NULL,
 	[estado] [nvarchar](50) NULL,
+	[nombreimagen] [nvarchar](20) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[id_juego] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[juegos_categorias]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[juegos_categorias]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -238,26 +262,47 @@ PRIMARY KEY CLUSTERED
 (
 	[id_juego] ASC,
 	[id_categoria] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[usuarios]    Script Date: 22/03/2023 22:32:58 ******/
+/****** Object:  Table [dbo].[OCUPACION]    Script Date: 27/03/2023 9:13:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[usuarios](
-	[id_usuario] [int] NOT NULL,
-	[nombre_usuario] [nvarchar](70) NOT NULL,
-	[correo_electronico] [nvarchar](100) NOT NULL,
-	[pass] [varbinary](max) NULL,
-	[imagen] [nchar](10) NULL,
-	[salt] [nvarchar](50) NULL,
- CONSTRAINT [PK__usuarios__4E3E04AD5C4C8CEB] PRIMARY KEY CLUSTERED 
-(
-	[id_usuario] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+CREATE TABLE [dbo].[OCUPACION](
+	[INSCRIPCION] [int] NULL,
+	[HOSPITAL_COD] [int] NULL,
+	[SALA_COD] [int] NULL,
+	[CAMA] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PLANTILLA]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PLANTILLA](
+	[HOSPITAL_COD] [nvarchar](50) NULL,
+	[SALA_COD] [nvarchar](50) NULL,
+	[EMPLEADO_NO] [nvarchar](50) NULL,
+	[APELLIDO] [nvarchar](50) NULL,
+	[FUNCION] [nvarchar](50) NULL,
+	[T] [nvarchar](50) NULL,
+	[SALARIO] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SALA]    Script Date: 27/03/2023 9:13:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SALA](
+	[HOSPITAL_COD] [nvarchar](50) NULL,
+	[SALA_COD] [nvarchar](50) NULL,
+	[NOMBRE] [nvarchar](50) NULL,
+	[NUM_CAMA] [nvarchar](50) NULL
+) ON [PRIMARY]
 GO
 INSERT [dbo].[categorias] ([id_categoria], [nombre_categoria], [descripcion_categoria]) VALUES (1, N'Aventura', NULL)
 INSERT [dbo].[categorias] ([id_categoria], [nombre_categoria], [descripcion_categoria]) VALUES (2, N'Acción', NULL)
@@ -265,32 +310,151 @@ INSERT [dbo].[categorias] ([id_categoria], [nombre_categoria], [descripcion_cate
 INSERT [dbo].[categorias] ([id_categoria], [nombre_categoria], [descripcion_categoria]) VALUES (4, N'Estrategia', NULL)
 INSERT [dbo].[categorias] ([id_categoria], [nombre_categoria], [descripcion_categoria]) VALUES (5, N'Rol', NULL)
 GO
-INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (1, 6, 6, N'Me gusta mucho el juego , ya que se puede jugar con amigos', CAST(N'2023-03-21T00:00:00.000' AS DateTime))
-INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (2, 6, 6, N'Prueba comentario', CAST(N'2023-03-21T22:44:42.277' AS DateTime))
-INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (3, 6, 6, N'prueba', CAST(N'2023-03-22T18:32:36.813' AS DateTime))
-INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (4, 6, 6, N'prueba jose', CAST(N'2023-03-22T18:40:48.077' AS DateTime))
-INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (5, 6, 6, N'prueba2', CAST(N'2023-03-22T18:43:44.317' AS DateTime))
+INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (1, 4, 1, N'Buen mundo abierto', CAST(N'2023-03-27T02:07:00.203' AS DateTime))
+INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (2, 4, 2, N'Pay to Win', CAST(N'2023-03-27T02:08:09.013' AS DateTime))
+INSERT [dbo].[comentarios] ([id_comentario], [id_juego], [id_usuario], [comentario], [fecha_post]) VALUES (3, 4, 3, N'Juego para la Historia', CAST(N'2023-03-27T02:09:53.997' AS DateTime))
 GO
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (1, N'Super Mario Bros.', N'Clásico juego de plataformas con Mario y Luigi', CAST(29.99 AS Decimal(10, 2)), N'popular')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (2, N'The Legend of Zelda', N'Aventura épica de Link en busca de la Trifuerza', CAST(39.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (3, N'Minecraft', N'Juego de construcción y aventura', CAST(24.99 AS Decimal(10, 2)), N'popular')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (4, N'Grand Theft Auto V', N'Juego de mundo abierto con misiones y acción', CAST(59.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (5, N'Fortnite', N'Juego de Battle Royale con construcción', CAST(0.00 AS Decimal(10, 2)), N'popular')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (6, N'Among Us', N'Juego multijugador de intriga y engaño', CAST(4.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (7, N'Call of Duty: Warzone', N'Juego de disparos multijugador', CAST(0.00 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (8, N'The Sims 4', N'Juego de simulación de vida', CAST(39.99 AS Decimal(10, 2)), N'establecido')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (9, N'Stardew Valley', N'Juego de simulación de granja y aventura', CAST(14.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (10, N'Animal Crossing: New Horizons', N'Juego de simulación de vida en una isla', CAST(59.99 AS Decimal(10, 2)), N'popular')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (11, N'Overwatch', N'Juego de disparos multijugador con héroes', CAST(39.99 AS Decimal(10, 2)), N'establecido')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (12, N'Red Dead Redemption 2', N'Juego de mundo abierto en el Salvaje Oeste', CAST(49.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (13, N'League of Legends', N'Juego de estrategia multijugador en línea', CAST(0.00 AS Decimal(10, 2)), N'popular')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (14, N'The Elder Scrolls V: Skyrim', N'Juego de rol de mundo abierto con dragones', CAST(39.99 AS Decimal(10, 2)), N'establecido')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (15, N'FIFA 22', N'Juego de simulación de fútbol', CAST(59.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (16, N'Assassin''s Creed Valhalla', N'Juego de aventuras en la era vikinga', CAST(59.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (17, N'World of Warcraft', N'Juego de rol multijugador en línea', CAST(14.99 AS Decimal(10, 2)), N'establecido')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (18, N'Valorant', N'Juego de disparos táctico multijugador en línea', CAST(0.00 AS Decimal(10, 2)), N'popular')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (19, N'Cyberpunk 2077', N'Juego de rol de mundo abierto en el futuro', CAST(49.99 AS Decimal(10, 2)), N'tendencia')
-INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado]) VALUES (20, N'The Witcher 3: Wild Hunt', N'Juego de rol de mundo abierto con monstruos', CAST(39.99 AS Decimal(10, 2)), N'establecido')
+INSERT [dbo].[compra_juego] ([id_compra], [id_juego], [precio_juego]) VALUES (1, 1, CAST(29.99 AS Decimal(10, 2)))
+INSERT [dbo].[compra_juego] ([id_compra], [id_juego], [precio_juego]) VALUES (1, 2, CAST(39.99 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[compras] ([id_compra], [id_usuario], [precio_total], [fecha_compra]) VALUES (1, 3, CAST(69.98 AS Decimal(10, 2)), CAST(N'2023-03-27' AS Date))
+GO
+INSERT [dbo].[DEPT] ([DEPT_NO], [DNOMBRE], [LOC]) VALUES (10, N'CONTABILIDAD', N'ELCHE')
+INSERT [dbo].[DEPT] ([DEPT_NO], [DNOMBRE], [LOC]) VALUES (20, N'INVESTIGACION', N'MADRID')
+INSERT [dbo].[DEPT] ([DEPT_NO], [DNOMBRE], [LOC]) VALUES (30, N'VENTAS', N'BARCELONA')
+INSERT [dbo].[DEPT] ([DEPT_NO], [DNOMBRE], [LOC]) VALUES (40, N'PRODUCCION', N'SALAMANCA')
+GO
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'22', N'386', N'Cabeza D.', N'Psiquiatría', 152000)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'22', N'398', N'Best D.', N'Urología', 225000)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'19', N'435', N'López A.', N'Cardiología', 321000)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'22', N'453', N'Galo D.', N'Pediatría', 145222)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'45', N'522', N'Adams C.', N'Neurología', 520000)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'18', N'585', N'Miller G.', N'Ginecología', 450111)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'45', N'607', N'Chuki P.', N'Pediatría', 223000)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'18', N'982', N'Cajal R.', N'Cardiología', 151500)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'17', N'521', N'Peke O.', N'Neurología', 231000)
+INSERT [dbo].[DOCTOR] ([HOSPITAL_COD], [DOCTOR_NO], [APELLIDO], [ESPECIALIDAD], [SALARIO]) VALUES (N'17', N'120', N'Curro F.', N'Urología', 211000)
+GO
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7369, N'SANCHA', N'EMPLEADO', 7902, CAST(N'1980-12-17T00:00:00.000' AS DateTime), 104001, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7499, N'ARROYO', N'VENDEDOR', 7698, CAST(N'1981-02-22T00:00:00.000' AS DateTime), 208000, 39000, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7521, N'SALA', N'VENDEDOR', 7698, CAST(N'1981-02-22T00:00:00.000' AS DateTime), 162500, 65000, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7566, N'JIMENEZ', N'DIRECTOR', 7839, CAST(N'1981-04-02T00:00:00.000' AS DateTime), 386750, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7654, N'MARTINEZ', N'VENDEDOR', 7698, CAST(N'1981-09-28T00:00:00.000' AS DateTime), 182000, 182000, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7698, N'NEGRO', N'DIRECTOR', 7839, CAST(N'1981-05-01T00:00:00.000' AS DateTime), 370500, 0, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7782, N'CEREZO', N'DIRECTOR', 7839, CAST(N'1981-06-09T00:00:00.000' AS DateTime), 318500, 0, 10)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7788, N'GIL', N'ANALISTA', 7566, CAST(N'1987-03-30T00:00:00.000' AS DateTime), 390002, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7839, N'REY', N'PRESIDENTE', 0, CAST(N'1981-11-17T00:00:00.000' AS DateTime), 650000, 0, 10)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7844, N'TOVAR', N'VENDEDOR', 7698, CAST(N'1981-09-08T00:00:00.000' AS DateTime), 195000, 0, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7876, N'ALONSO', N'EMPLEADO', 7788, CAST(N'1987-05-03T00:00:00.000' AS DateTime), 143000, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7900, N'JIMENO', N'EMPLEADO', 7698, CAST(N'1981-12-03T00:00:00.000' AS DateTime), 123500, 0, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7902, N'FERNANDEZ', N'ANALISTA', 7566, CAST(N'1981-12-03T00:00:00.000' AS DateTime), 390000, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7934, N'MUÑOZ', N'EMPLEADO', 7782, CAST(N'1982-06-23T00:00:00.000' AS DateTime), 169000, 0, 10)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7919, N'SERRA', N'DIRECTOR', 7839, CAST(N'1983-12-11T00:00:00.000' AS DateTime), 390000, 21000, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7988, N'SANTIUSTE', N'ANALISTA', 7919, CAST(N'1987-02-03T00:00:00.000' AS DateTime), 225000, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7322, N'FORD', N'VENDEDOR', 7919, CAST(N'1982-04-04T00:00:00.000' AS DateTime), 129000, 0, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7614, N'GUTIERREZ', N'ANALISTA', 7919, CAST(N'1976-10-31T00:00:00.000' AS DateTime), 219000, 25000, 20)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7589, N'CASALES', N'EMPLEADO', 7919, CAST(N'1984-11-28T00:00:00.000' AS DateTime), 179000, 0, 10)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7777, N'TORMO', N'VENDEDOR', 7788, CAST(N'1982-09-22T00:00:00.000' AS DateTime), 165900, 0, 30)
+INSERT [dbo].[EMP] ([EMP_NO], [APELLIDO], [OFICIO], [DIR], [FECHA_ALT], [SALARIO], [COMISION], [DEPT_NO]) VALUES (7618, N'ALCALA', N'EMPLEADO', 7782, CAST(N'1987-01-14T00:00:00.000' AS DateTime), 119000, 0, 10)
+GO
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'10995', N'Laguía M.', N'Goya 20', CAST(N'1956-05-16T00:00:00.000' AS DateTime), N'M', N'280862422')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'14024', N'Fernández M.', N'Recoletos 50', CAST(N'1960-05-21T00:00:00.000' AS DateTime), N'F', N'284991452')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'18004', N'Serrano V.', N'Alcalá 12', CAST(N'1967-06-23T00:00:00.000' AS DateTime), N'F', N'321790059')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'36658', N'Domin S.', N'Mayor 71', CAST(N'1942-01-01T00:00:00.000' AS DateTime), N'M', N'160654471')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'38702', N'Neal R.', N'Orense 11', CAST(N'1940-06-18T00:00:00.000' AS DateTime), N'F', N'380010217')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'39217', N'Cervantes M.', N'Perón 38', CAST(N'1952-02-29T00:00:00.000' AS DateTime), N'M', N'440294390')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'59076', N'Miller B.', N'López de Hoyos 2', CAST(N'1945-09-16T00:00:00.000' AS DateTime), N'F', N'311969044')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'63827', N'Ruiz P.', N'Ezquerdo 103', CAST(N'1980-12-26T00:00:00.000' AS DateTime), N'M', N'100973253')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'64823', N'Fraiser A.', N'Soto 3', CAST(N'1980-07-10T00:00:00.000' AS DateTime), N'F', N'285201776')
+INSERT [dbo].[ENFERMO] ([INSCRIPCION], [APELLIDO], [DIRECCION], [FECHA_NAC], [S], [NSS]) VALUES (N'74835', N'Benítez E.', N'Argentina', CAST(N'1957-10-05T00:00:00.000' AS DateTime), N'M', N'154811767')
+GO
+INSERT [dbo].[HOSPITAL] ([HOSPITAL_COD], [NOMBRE], [DIRECCION], [TELEFONO], [NUM_CAMA]) VALUES (N'19', N'Provincial', N'O'' Donell 50', N'964-4256', N'502')
+INSERT [dbo].[HOSPITAL] ([HOSPITAL_COD], [NOMBRE], [DIRECCION], [TELEFONO], [NUM_CAMA]) VALUES (N'18', N'General', N'Atocha s/n', N'595-3111', N'987')
+INSERT [dbo].[HOSPITAL] ([HOSPITAL_COD], [NOMBRE], [DIRECCION], [TELEFONO], [NUM_CAMA]) VALUES (N'22', N'La Paz', N'Castellana 1000', N'923-5411', N'412')
+INSERT [dbo].[HOSPITAL] ([HOSPITAL_COD], [NOMBRE], [DIRECCION], [TELEFONO], [NUM_CAMA]) VALUES (N'45', N'San Carlos', N'Ciudad Univeritaria', N'597-1500', N'845')
+INSERT [dbo].[HOSPITAL] ([HOSPITAL_COD], [NOMBRE], [DIRECCION], [TELEFONO], [NUM_CAMA]) VALUES (N'17', N'Ruber', N'Juan Bravo, 49', N'91-4027100', N'217')
+GO
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (1, 1, N'1_supermario.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (2, 1, N'2_supermario.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (3, 1, N'3_supermario.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (4, 2, N'1_zelda.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (5, 2, N'2_zelda.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (6, 2, N'3_zelda.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (7, 3, N'1_minecraft.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (8, 3, N'2_minecraft.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (9, 3, N'3_minecraft.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (10, 4, N'1_gta.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (11, 4, N'2_gta.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (12, 4, N'3_gta.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (13, 5, N'1_fornite.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (14, 5, N'2_fornite.webp')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (15, 5, N'3_fornite.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (16, 6, N'1_among.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (17, 6, N'2_among.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (18, 6, N'3_among.png')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (19, 7, N'1_warzone.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (20, 7, N'2_warzone.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (21, 7, N'3_warzone.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (22, 8, N'1_sims.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (23, 8, N'2_sims.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (24, 8, N'3_sims.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (25, 9, N'1_stardew.png')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (26, 9, N'2_stardew.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (27, 9, N'3_stardew.png')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (28, 10, N'1_animal.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (29, 10, N'2_animal.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (30, 10, N'3_animal.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (31, 11, N'1_over.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (32, 11, N'2_over.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (33, 11, N'3_over.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (34, 12, N'1_red.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (35, 12, N'2_red.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (36, 12, N'3_red.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (37, 13, N'1_lol.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (38, 13, N'2_lol.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (39, 13, N'3_lol.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (40, 14, N'1_skyrim.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (41, 14, N'2_skyrim.png')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (42, 14, N'3_skyrim.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (43, 15, N'1_fifa.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (44, 15, N'2_fifa.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (45, 15, N'3_fifa.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (46, 16, N'1_valhalla.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (47, 16, N'2_valhalla.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (48, 16, N'3_valhalla.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (49, 17, N'1_wow.png')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (50, 17, N'2_wow.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (51, 17, N'3_wow.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (52, 18, N'1_valorant.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (53, 18, N'2_valorant.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (54, 18, N'3_valorant.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (55, 19, N'1_cyber.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (56, 19, N'2_cyber.jpeg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (57, 19, N'3_cyber.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (58, 20, N'1_witcher.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (59, 20, N'2_witcher.jpg')
+INSERT [dbo].[imagenes] ([id_imagen], [id_juego], [imagen]) VALUES (60, 20, N'3_witcher.jpg')
+GO
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (1, N'Super Mario Bros.', N'Clásico juego de plataformas con Mario y Luigi', CAST(29.99 AS Decimal(10, 2)), N'popular', N'supermario.jpeg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (2, N'The Legend of Zelda', N'Aventura épica de Link en busca de la Trifuerza', CAST(39.99 AS Decimal(10, 2)), N'tendencia', N'zelda.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (3, N'Minecraft', N'Juego de construcción y aventura', CAST(24.99 AS Decimal(10, 2)), N'popular', N'minecraft.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (4, N'Grand Theft Auto V', N'Juego de mundo abierto con misiones y acción', CAST(59.99 AS Decimal(10, 2)), N'tendencia', N'gta.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (5, N'Fortnite', N'Juego de Battle Royale con construcción', CAST(0.00 AS Decimal(10, 2)), N'popular', N'fornite.jpeg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (6, N'Among Us', N'Juego multijugador de intriga y engaño', CAST(4.99 AS Decimal(10, 2)), N'tendencia', N'among.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (7, N'Call of Duty: Warzone', N'Juego de disparos multijugador', CAST(0.00 AS Decimal(10, 2)), N'tendencia', N'warzone.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (8, N'The Sims 4', N'Juego de simulación de vida', CAST(39.99 AS Decimal(10, 2)), N'establecido', N'sims.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (9, N'Stardew Valley', N'Juego de simulación de granja y aventura', CAST(14.99 AS Decimal(10, 2)), N'tendencia', N'stardew.png')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (10, N'Animal Crossing: New Horizons', N'Juego de simulación de vida en una isla', CAST(59.99 AS Decimal(10, 2)), N'popular', N'animal.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (11, N'Overwatch', N'Juego de disparos multijugador con héroes', CAST(39.99 AS Decimal(10, 2)), N'establecido', N'over.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (12, N'Red Dead Redemption 2', N'Juego de mundo abierto en el Salvaje Oeste', CAST(49.99 AS Decimal(10, 2)), N'tendencia', N'red.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (13, N'League of Legends', N'Juego de estrategia multijugador en línea', CAST(0.00 AS Decimal(10, 2)), N'popular', N'lol.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (14, N'The Elder Scrolls V: Skyrim', N'Juego de rol de mundo abierto con dragones', CAST(39.99 AS Decimal(10, 2)), N'establecido', N'skyrim.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (15, N'FIFA 22', N'Juego de simulación de fútbol', CAST(59.99 AS Decimal(10, 2)), N'tendencia', N'fifa.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (16, N'Assassin''s Creed Valhalla', N'Juego de aventuras en la era vikinga', CAST(59.99 AS Decimal(10, 2)), N'tendencia', N'valhalla.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (17, N'World of Warcraft', N'Juego de rol multijugador en línea', CAST(14.99 AS Decimal(10, 2)), N'establecido', N'wow.png')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (18, N'Valorant', N'Juego de disparos táctico multijugador en línea', CAST(0.00 AS Decimal(10, 2)), N'popular', N'valorant.jpeg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (19, N'Cyberpunk 2077', N'Juego de rol de mundo abierto en el futuro', CAST(49.99 AS Decimal(10, 2)), N'tendencia', N'cyber.jpg')
+INSERT [dbo].[juegos] ([id_juego], [nombre_juego], [descripcion_juego], [precio_juego], [estado], [nombreimagen]) VALUES (20, N'The Witcher 3: Wild Hunt', N'Juego de rol de mundo abierto con monstruos', CAST(39.99 AS Decimal(10, 2)), N'establecido', N'witcher.jpg')
 GO
 INSERT [dbo].[juegos_categorias] ([id_juego], [id_categoria]) VALUES (1, 1)
 INSERT [dbo].[juegos_categorias] ([id_juego], [id_categoria]) VALUES (2, 1)
@@ -311,32 +475,76 @@ INSERT [dbo].[juegos_categorias] ([id_juego], [id_categoria]) VALUES (9, 5)
 INSERT [dbo].[juegos_categorias] ([id_juego], [id_categoria]) VALUES (10, 1)
 INSERT [dbo].[juegos_categorias] ([id_juego], [id_categoria]) VALUES (10, 5)
 GO
-INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (1, N'JP', N'josepesoa002@gmail.com', 0x0BA1154D636C473E37C7200F4772D4365EBB34F2061456F3ACEFE392E34B789CC38D184E2F4988D25D44C609F477E12D3476C26BB54A9D4DC8763BCDEB582408, NULL, N'{H§r6ÁÈÕ¯M5HÞá±½1´äç/Cz	ý÷Û3Nnx9c')
-INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (2, N'AD', N'a@gmail.com', 0xAFF3BC54A4EF3E9C292687B132EDEC479FFEA79DF127B01EFC79C917DF3CE5743C14983F30503363E11510D7FB249619EFEC9824A7EDBB9813774ACFF4E2BE15, NULL, N'p½(=Ãk³SCy]B''½ul¤àzx¨äxRßÊÀÒU­s<P_')
-INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (3, N'AD', N'a@gmail.com', 0xC5C08E5E7B3E46661526D43A4186A492C1FACEB313CF9F446D31B33EC6EC2DEFC6117B704179AD5E17D1ECB96A06F84AECB31631CDAA929D4A092FD15983ADC0, NULL, N'}óóDßóQ>8''Hw½ïoTègÏCZ}ç0oúo°Yµ')
-INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (4, N'C', N'josepesoa002@gmail.com', 0xCA330F5E536BA687B46A355BD3001203685A0DC8E9ECB452D14305028514BB80461EE8274945F3B9EA0B6194B2CF72F96205722AB7B26D8654A7BE8C1984BA20, NULL, N'BâÇ±î?8bZy8IUô¥ßïÎÄWà¦LWÆööøêk»Í.Wu')
-INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (5, N'Z', N'z@gmail.com', 0x3591DCBA58AFA6C0E0CEDAA825FDFE12A5BE801C16928DC633C0FADAEB04DDE3CB098062E38C0FDFCEB9064888AC24B3880D722B5E4DEE2B44277729B330195F, NULL, N'ìk''ÏúÔ:éä_Q ÚêüH¤ÊÕjÉÌÝÙÍ»£¼7£ÑA
-)4 Xs¸BrýÙ!ûÕ')
-INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (6, N'jose@gmail.com', N'jose@gmail.com', 0x80E092967AF465A0F586B9AC73EEA23E701207E6F13D8F3F4AEEDEB5F3B1216E7544B06F9C589B70B4DDA2A167298FC6BFFBDE048A52B99AF9566E5B78413921, NULL, N'uº®²Qxpß3ò¤ÑY`À
-ãS¶ò¹´":¹`áªÕî8"¾ %gÎ¸ÀP')
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (10995, 19, 6, 1)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (18004, 19, 3, 2)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (14024, 19, 6, 3)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (36658, 18, 4, 1)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (38702, 18, 4, 2)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (39217, 22, 1, 1)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (59076, 22, 6, 2)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (63827, 22, 6, 3)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (64882, 22, 2, 1)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (78955, 45, 2, 1)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (56233, 45, 1, 2)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (59877, 17, 6, 5)
+INSERT [dbo].[OCUPACION] ([INSCRIPCION], [HOSPITAL_COD], [SALA_COD], [CAMA]) VALUES (65231, 17, 3, 9)
+GO
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'22', N'6', N'1009', N'Higueras D.', N'Enfermera', N'T', N'200500')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'45', N'4', N'1280', N'Amigo R.', N'Interino', N'N', N'221000')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'19', N'6', N'3106', N'Hernández J.', N'Enfermero', N'T', N'275000')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'19', N'6', N'3754', N'Díaz B.', N'Enfermera', N'T', N'226200')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'22', N'1', N'6065', N'Rivera G.', N'Enfermera', N'N', N'162600')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'18', N'4', N'6357', N'Karplus W.', N'Interino', N'T', N'337900')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'22', N'1', N'7379', N'Carlos R.', N'Enfermera', N'T', N'211900')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'22', N'6', N'8422', N'Bocina G.', N'Enfermero', N'M', N'183800')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'45', N'1', N'8526', N'Frank H.', N'Enfermera', N'T', N'252200')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'22', N'2', N'9901', N'Núñez C.', N'Interino', N'M', N'221000')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'17', N'6', N'8521', N'Palomo C.', N'Interino', N'M', N'219000')
+INSERT [dbo].[PLANTILLA] ([HOSPITAL_COD], [SALA_COD], [EMPLEADO_NO], [APELLIDO], [FUNCION], [T], [SALARIO]) VALUES (N'17', N'1', N'8520', N'Cortes V.', N'Enfermera', N'N', N'189500')
+GO
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'19', N'3', N'Cuidados Intensivos', N'21')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'19', N'6', N'Psiquiátricos', N'67')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'18', N'3', N'Cuidados Intensivos', N'10')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'18', N'4', N'Cardiología', N'53')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'22', N'1', N'Recuperación', N'10')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'22', N'6', N'Psiquiátricos', N'118')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'22', N'2', N'Maternidad', N'34')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'45', N'4', N'Cardiología', N'55')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'45', N'1', N'Recuperación', N'15')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'45', N'2', N'Maternidad', N'24')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'17', N'6', N'Psiquiátricos', N'220')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'17', N'1', N'Recuperación', N'20')
+INSERT [dbo].[SALA] ([HOSPITAL_COD], [SALA_COD], [NOMBRE], [NUM_CAMA]) VALUES (N'17', N'2', N'Maternidad', N'21')
+GO
+INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (1, N'joker', N'joker@gmail.com', 0xAE17F29480DE168A6A0D078A285479AE7151FF26D3417F67905678AE1602B20608EE5EAD759CEBB1AD02DF566209ECFB3E2809CCABDBDBB2D407EF2ABD74B4DA, N'1_joker.jpg', N'F¸n_l¸.08^@×Óï:£ùypUZäÅ·+ì1
+Û,òg\	j')
+INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (2, N'Batman', N'batman@gmail.com', 0xB9DDFE39DF8B34174836F1C4A2EDC4C07AECB40774EB564C95A634C7A204DC1FCD24868C3CE25AFA70E065F30BEA5CF0BDD29B35A5633C7553695BF35E573C6F, N'2_batman.jpeg', N'¸ºÚ)¾ÆùDê¬q|3º¬Q¨jkÁ@XcåD[G«ööàm=¾BÛß6"pÙy¢hÚ')
+INSERT [dbo].[usuarios] ([id_usuario], [nombre_usuario], [correo_electronico], [pass], [imagen], [salt]) VALUES (3, N'spider', N'spider@gmail.com', 0x4115E1B36A710751DC26EE9DC9AE1EC306B6DD13A4ADB8030955862888B5AD48B8CE2AD47E94A076B660C388CF6ED612A19DD913AED5BE5B34AA786B68A10850, N'3_spider.jpg', N'6Ê¤ô´Ñôð¶Ë8DóOE¨~Zª¥§åÕÆ5cì»<ç6)Ø¾s²')
 GO
 ALTER TABLE [dbo].[comentarios]  WITH CHECK ADD  CONSTRAINT [FK_comentarios_juegos] FOREIGN KEY([id_juego])
 REFERENCES [dbo].[juegos] ([id_juego])
 GO
 ALTER TABLE [dbo].[comentarios] CHECK CONSTRAINT [FK_comentarios_juegos]
 GO
-ALTER TABLE [dbo].[comentarios]  WITH CHECK ADD  CONSTRAINT [FK_comentarios_usuarios] FOREIGN KEY([id_usuario])
+ALTER TABLE [dbo].[comentarios]  WITH CHECK ADD  CONSTRAINT [FK_comentarios_usuarios1] FOREIGN KEY([id_usuario])
 REFERENCES [dbo].[usuarios] ([id_usuario])
 GO
-ALTER TABLE [dbo].[comentarios] CHECK CONSTRAINT [FK_comentarios_usuarios]
+ALTER TABLE [dbo].[comentarios] CHECK CONSTRAINT [FK_comentarios_usuarios1]
 GO
-ALTER TABLE [dbo].[compras]  WITH CHECK ADD FOREIGN KEY([id_juego])
+ALTER TABLE [dbo].[compra_juego]  WITH CHECK ADD  CONSTRAINT [FK_compra_juego_compras] FOREIGN KEY([id_compra])
+REFERENCES [dbo].[compras] ([id_compra])
+GO
+ALTER TABLE [dbo].[compra_juego] CHECK CONSTRAINT [FK_compra_juego_compras]
+GO
+ALTER TABLE [dbo].[compra_juego]  WITH CHECK ADD  CONSTRAINT [FK_compra_juego_juegos] FOREIGN KEY([id_juego])
 REFERENCES [dbo].[juegos] ([id_juego])
 GO
-ALTER TABLE [dbo].[compras]  WITH CHECK ADD  CONSTRAINT [FK__compras__id_usua__30F848ED] FOREIGN KEY([id_usuario])
+ALTER TABLE [dbo].[compra_juego] CHECK CONSTRAINT [FK_compra_juego_juegos]
+GO
+ALTER TABLE [dbo].[compras]  WITH CHECK ADD  CONSTRAINT [FK_compras_usuarios] FOREIGN KEY([id_usuario])
 REFERENCES [dbo].[usuarios] ([id_usuario])
 GO
-ALTER TABLE [dbo].[compras] CHECK CONSTRAINT [FK__compras__id_usua__30F848ED]
+ALTER TABLE [dbo].[compras] CHECK CONSTRAINT [FK_compras_usuarios]
 GO
 ALTER TABLE [dbo].[favoritos]  WITH CHECK ADD  CONSTRAINT [FK_favoritos_juegos] FOREIGN KEY([id_juego])
 REFERENCES [dbo].[juegos] ([id_juego])
@@ -356,10 +564,67 @@ GO
 ALTER TABLE [dbo].[juegos_categorias]  WITH CHECK ADD FOREIGN KEY([id_categoria])
 REFERENCES [dbo].[categorias] ([id_categoria])
 GO
-ALTER TABLE [dbo].[juegos_categorias]  WITH CHECK ADD FOREIGN KEY([id_juego])
+ALTER TABLE [dbo].[juegos_categorias]  WITH CHECK ADD  CONSTRAINT [FK__juegos_ca__id_ju__17F790F9] FOREIGN KEY([id_juego])
 REFERENCES [dbo].[juegos] ([id_juego])
 GO
-USE [master]
+ALTER TABLE [dbo].[juegos_categorias] CHECK CONSTRAINT [FK__juegos_ca__id_ju__17F790F9]
 GO
-ALTER DATABASE [TIENDAVIRTUAL] SET  READ_WRITE 
+/****** Object:  StoredProcedure [dbo].[SP_EMP_DEPT]    Script Date: 27/03/2023 9:13:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[SP_EMP_DEPT]
+(@DEPARTAMENTO NVARCHAR(50))
+AS
+    select EMP.APELLIDO, EMP.OFICIO, EMP.SALARIO
+    , DEPT.DNOMBRE AS DEPARTAMENTO
+    , DEPT.LOC AS LOCALIDAD
+    FROM EMP
+    INNER JOIN DEPT
+    ON EMP.DEPT_NO = DEPT.DEPT_NO
+    WHERE DEPT.DNOMBRE = @DEPARTAMENTO
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GRUPO_JUEGOS_FILTROS]    Script Date: 27/03/2023 9:13:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_GRUPO_JUEGOS_FILTROS]
+(@posicion INT, @categoria NVARCHAR(50),@precio DECIMAL
+, @numeroregistros INT OUT)
+AS
+    declare @idcategoria int
+	select @idcategoria = c.id_categoria
+	from categorias c
+	where c.nombre_categoria=@categoria
+
+	SELECT @numeroregistros = COUNT(jc.id_juego) 
+	FROM juegos_categorias jc 
+	INNER JOIN juegos j
+	ON j.id_juego = jc.id_juego
+	WHERE jc.id_categoria = @idcategoria and j.precio_juego <= @precio;
+
+SELECT id_juego, nombre_juego, descripcion_juego, precio_juego, estado, nombreimagen FROM
+        (SELECT CAST(
+            ROW_NUMBER() OVER(ORDER BY j.nombre_juego) AS INT) AS POSICION,
+           j.id_juego, j.nombre_juego , j.descripcion_juego, j.precio_juego, j.estado,j.nombreimagen
+        FROM JUEGOS j
+		INNER JOIN juegos_categorias jc ON j.id_juego = jc.id_juego
+        WHERE jc.id_categoria=@idcategoria and j.precio_juego <= @precio) AS QUERY
+    WHERE QUERY.POSICION >= @POSICION AND QUERY.POSICION < (@POSICION + 4)
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_INCREMENTO_SALARIO_EMP]    Script Date: 27/03/2023 9:13:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[SP_INCREMENTO_SALARIO_EMP]
+(@APELLIDO NVARCHAR(30), @INCREMENTO INT)
+AS
+	UPDATE EMP SET SALARIO = SALARIO + @INCREMENTO 
+	WHERE APELLIDO=@APELLIDO
+GO
+ALTER DATABASE [AZURETAJAMAR] SET  READ_WRITE 
 GO
