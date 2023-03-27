@@ -1,0 +1,48 @@
+------AZURETAJAMAR--------
+Al generar el script, como ya tenia otras tablas dentro se me ha generador el script de todas las tablas , pero
+realmente las que utilizo en el proyecto son :
+
+-USUARIOS
+-FAVORITOS
+-COMPRAS
+-CATEGORIAS
+-JUEGOS
+-JUEGOS_CATEGORIAS
+-COMPRA_JUEGO
+-COMENTARIOS
+-IMAGENES
+
+
+-------USUARIOS------------
+---------Login--------------
+Usuario:joker
+Email:joker@gmail.com
+Contraseña:123456
+
+Usuario:Batman
+Email:batman@gmail.com
+Contraseña:123456
+
+Usuario:spider
+Email:spider@gmail.com
+Contraseña:123456
+
+
+-------Register-----
+El primer campo a rellenar es el Username.
+El segundo campo es el correo.
+EL tercer campo es la contraseña.
+
+
+-----Profile-----
+Cuando el usuario nuevo , se logea no tendra una iamgen de perfil ,
+pobra subir la imagen del perfil en profile pero solo pobra modificarlo una vez , este
+error se arreglara en futuras entregas
+------Detalles Juego------
+Mostrara imagenes del juego , comentarios relaciona con el y ademas se vera quien escribio los cometarios
+con la imagen del usuario
+
+
+
+
+
