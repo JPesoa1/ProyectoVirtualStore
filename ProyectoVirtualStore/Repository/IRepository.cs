@@ -32,7 +32,7 @@ namespace ProyectoVirtualStore.Repository
 
         Task<List<Imagenes>> GetImagenes(int idjuego);
 
-        Task<Usuario> FindUsuario(int idususario)
+        Task<Usuario> FindUsuario(int idususario);
 
         Task ModificarUsuarioImagen(int idususario, string imagen);
 

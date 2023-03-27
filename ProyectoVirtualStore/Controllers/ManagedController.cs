@@ -7,6 +7,7 @@ using ProyectoVirtualStore.Models;
 using ProyectoVirtualStore.Repository;
 
 using System.Security.Claims;
+using ProyectoVirtualStore.Extensions;
 
 namespace ProyectoVirtualStore.Controllers
 {
@@ -46,12 +47,30 @@ namespace ProyectoVirtualStore.Controllers
                 Claim claimId = new Claim(ClaimTypes.NameIdentifier,user.IdUsuario.ToString());
                 Claim claimUser = new Claim(ClaimTypes.Name, user.NombreUsuario);
                 Claim claimEmail = new Claim(ClaimTypes.Email, user.Email);
+                if (user.Imagen != null)
+                {
+                    Claim claimImagen = new Claim("imagen", user.Imagen);
+                    identity.AddClaim(claimId);
+                    identity.AddClaim(claimUser);
+                    identity.AddClaim(claimEmail);
+                    identity.AddClaim(claimImagen);
+                    HttpContext.Session.SetObject("imagenP", user.Imagen);
+                }
+                else {
+
+                    Claim claimImagen = new Claim("imagen", "nada");
+                    HttpContext.Session.SetObject("imagenP","nada");
+                    identity.AddClaim(claimId);
+                    identity.AddClaim(claimUser);
+                    identity.AddClaim(claimEmail);
+                    identity.AddClaim(claimImagen);
+
+                }
 
 
 
-                identity.AddClaim(claimId);
-                identity.AddClaim(claimUser);
-                identity.AddClaim(claimEmail);
+
+                
              
 
 
@@ -138,7 +157,8 @@ namespace ProyectoVirtualStore.Controllers
             }
 
             await this.repo.ModificarUsuarioImagen(idusuario,filenameUsuario);
-            string nombre = HttpContext.Session.GetString("USUARIO");
+            HttpContext.Session.SetObject("imagenP", filename);
+
 
             Usuario usuario = await this.repo.FindUsuario(idusuario);
             return View(usuario);

@@ -5,7 +5,7 @@
 }
 
 <div class="container2 padre">
-   
+
 
     <div style="width:100%;">
 
@@ -43,9 +43,9 @@
                 </span>
             </button>
         </div>
-        <div style="padding-left: 4rem;width: 80%;margin: 2rem  auto;" class="carddetalle">
+        <div style="padding-left: 4rem;width: 100%;margin: 2rem  auto;" class="carddetalle">
             <p>Titulo: @Model.Juego.NombreJuego</p>
-            <p>Precio: $@Model.Juego.PrecioJuego</p>
+            <p>Precio: <p style="font-weight:bold">$@Model.Juego.PrecioJuego</p></p>
             <p>Descripcion: @Model.Juego.DescripcionJuego</p>
         </div>
 
@@ -54,7 +54,7 @@
         <div style="text-align:center">
             <h1 style="font-weight:bold">@Model.Juego.NombreJuego</h1>
         </div>
-       
+
         <p style="font-family: Arial, Helvetica, sans-serif;">
             Pariatur aliqua sint mollit amet dolore tempor. Consequat sint magna amet qui dolor fugiat nisi ex ex esse.
             Veniam mollit non amet elit qui laborum pariatur eiusmod. Ut commodo commodo ut enim.
@@ -69,7 +69,7 @@
     <div class="padre">
         @if (Context.User.Identity.IsAuthenticated == false)
         {
-            
+
 
         }
         else
@@ -77,19 +77,19 @@
 
             @if (carrito != null && carrito.Contains(Model.Juego.IdJuego))
             {
-                <button disabled class="btn btn-outline-danger disabled">En carrito</button>
+                <button style="font-weight:bold" disabled class="btn btn-outline-danger disabled">En carrito</button>
             }
             else
             {
-                <a class="btn btn-outline-success" asp-controller="Games" asp-action="Index" asp-route-idjuego="@Model.Juego.IdJuego" asp-route-idjuegocarrito="@Model.Juego.IdJuego">
+                <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" asp-controller="Games" asp-action="Index" asp-route-idjuego="@Model.Juego.IdJuego" asp-route-idjuegocarrito="@Model.Juego.IdJuego">
                     Añadir a carrito
                 </a>
             }
-        
+
         }
-        
+
     </div>
-   
+
 
 
 
@@ -121,7 +121,7 @@
                     {
                         @foreach (VistaComentarios comentarios in Model.VistaComentarios)
                         {
-                            <article >
+                            <article>
                                 <div class="flex items-center mb-4 space-x-4">
                                     <img class="w-10 h-10 rounded-full" src="~/perfil/@comentarios.Imange" alt="">
                                     <div class="space-y-1 font-medium dark:text-white">
@@ -130,17 +130,17 @@
                                     </div>
                                 </div>
 
-                                <p class="mb-2 font-light text-gray-500 dark:text-gray-400"> @comentarios.Comentario</p>
+                                <p style="font-weight:bold;font-family:'Noto Serif'" class="mb-2 font-light text-gray-500 dark:text-gray-400"> @comentarios.Comentario</p>
 
                             </article>
-                            <hr/>
+                            <hr />
                         }
 
                     }
                     else if (Model.VistaComentarios.Count == 0 || Model.VistaComentarios == null)
                     {
 
-                        <h1>Sin comentarios de momento se el primero</h1>
+                        <h1>Sin comentarios , se el primero</h1>
                     }
 
 
@@ -164,28 +164,28 @@
                 </dl>
             </div>
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="about" role="tabpanel" aria-labelledby="about-tab">
-                <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">We invest in the world’s potential</h2>
+                <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Requisitos</h2>
                 <!-- List -->
                 <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
                     <li class="flex space-x-2">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="leading-tight">Dynamic reports and dashboards</span>
+                        <span class="leading-tight">Procesador:	AMD Ryzen 3 1200 / Intel Core i5-7500</span>
                     </li>
                     <li class="flex space-x-2">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="leading-tight">Templates for everyone</span>
+                        <span class="leading-tight">Memoria:	8 GB RAM</span>
                     </li>
                     <li class="flex space-x-2">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="leading-tight">Development workflow</span>
+                        <span class="leading-tight">Gráficos:   AMD Radeon RX 560 with 4GB VRAM / NVIDIA GeForce GTX 1050 Ti with 4GB VRAM</span>
                     </li>
                     <li class="flex space-x-2">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span class="leading-tight">Limitless business automation</span>
+                        <span class="leading-tight">Requisitos del sistema:	Windows 10 (64 bit)</span>
                     </li>
                 </ul>
             </div>
@@ -193,58 +193,46 @@
                 <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
                     <h2 id="accordion-flush-heading-1">
                         <button type="button" class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
-                            <span>What is Flowbite?</span>
+                            <span>¿Porque VirtualStore?</span>
                             <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
                     </h2>
                     <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
                         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is an open-source library of interactive components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.</p>
-                            <p class="text-gray-500 dark:text-gray-400">Check out this guide to learn how to <a href="/docs/getting-started/introduction/" class="text-blue-600 dark:text-blue-500 hover:underline">get started</a> and start developing websites even faster with components on top of Tailwind CSS.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">
+                                Et adipisicing dolore duis sunt reprehenderit deserunt irure eu est irure consectetur et reprehenderit.
+                                Dolore anim in esse eiusmod anim aliquip do consequat eiusmod. Do proident anim in incididunt qui eu laboris.
+                            </p>
                         </div>
                     </div>
                     <h2 id="accordion-flush-heading-2">
                         <button type="button" class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-2" aria-expanded="false" aria-controls="accordion-flush-body-2">
-                            <span>Is there a Figma file available?</span>
+                            <span>¿Nuestros Precio?</span>
                             <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
                     </h2>
                     <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
                         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
-                            <p class="text-gray-500 dark:text-gray-400">Check out the <a href="https://flowbite.com/figma/" class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">
+                                Et adipisicing dolore duis sunt reprehenderit deserunt irure eu est irure consectetur et reprehenderit.
+                                Dolore anim in esse eiusmod anim aliquip do consequat eiusmod. Do proident anim in incididunt qui eu laboris.
+                            </p>
                         </div>
                     </div>
-                    <h2 id="accordion-flush-heading-3">
-                        <button type="button" class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-3" aria-expanded="false" aria-controls="accordion-flush-body-3">
-                            <span>What are the differences between Flowbite and Tailwind UI?</span>
-                            <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
-                        <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                            <ul class="pl-5 text-gray-500 list-disc dark:text-gray-400">
-                                <li><a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a></li>
-                                <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-   
+
 
 
 
 </div>
 
 <style>
-    
+
     .padre {
         max-width: 1026px;
         margin: auto;
@@ -271,6 +259,7 @@
         .carddetalle:hover {
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
         }
+
     .card {
         padding: 20px;
         box-sizing: border-box;
